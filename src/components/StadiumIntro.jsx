@@ -129,22 +129,7 @@ export default function StadiumIntro({ onEnter }) {
   const handleEnterClick = () => {
     if (isTransitioningOut) return;
     setIsTransitioningOut(true);
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      if (onEnter) onEnter();
-      return;
-    }
-
-    gsap.to(containerRef.current, {
-      opacity: 0,
-      scale: 1.05,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        if (onEnter) onEnter();
-      }
-    });
+    if (onEnter) onEnter();
   };
 
   useEffect(() => {
@@ -158,17 +143,20 @@ export default function StadiumIntro({ onEnter }) {
     <div className="stadium-intro-container" ref={containerRef}>
       {/* Phase 2: Fullscreen 100vw x 100vh Friend's Football Video */}
       {!isVideoFinished && (
-        <video
-          ref={videoRef}
-          className="stadium-intro-video"
-          src="/assets/intro/friend-football.mp4"
-          autoPlay
-          muted
-          playsInline
-          preload="auto"
-          onEnded={handleVideoEnded}
-          onError={handleVideoError}
-        />
+        <>
+          <video
+            ref={videoRef}
+            className="stadium-intro-video"
+            src="/assets/intro/friend-football.mp4"
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            onEnded={handleVideoEnded}
+            onError={handleVideoError}
+          />
+          <div className="stadium-intro-watermark-detail" aria-hidden="true" />
+        </>
       )}
 
       {/* Phase 4: Large Rotating Football from attached photo */}

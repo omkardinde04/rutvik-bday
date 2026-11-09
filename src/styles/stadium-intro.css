@@ -29,6 +29,19 @@
   padding: 0;
 }
 
+.stadium-intro-watermark-detail {
+  position: absolute;
+  right: 8%;
+  bottom: 12%;
+  z-index: 26;
+  width: 1.1rem;
+  aspect-ratio: 1;
+  pointer-events: none;
+  background: rgba(22, 38, 18, 0.94);
+  clip-path: polygon(50% 0%, 62% 36%, 100% 50%, 62% 64%, 50% 100%, 38% 64%, 0% 50%, 38% 36%);
+  opacity: 0.8;
+}
+
 /* Phase 4: Large Rotating Football from attached photo */
 .stadium-intro-ball-wrapper {
   position: absolute;
