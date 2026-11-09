@@ -1,0 +1,206 @@
+/* Stadium Intro Fullscreen Styles */
+.stadium-intro-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  overflow: hidden;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Phase 2: Fullscreen 100vw x 100vh Video */
+.stadium-intro-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  z-index: 25;
+  background-color: #000000;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Phase 4: Large Rotating Football from attached photo */
+.stadium-intro-ball-wrapper {
+  position: absolute;
+  top: 50vh; /* Upper crest touches the vertical midpoint */
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(320px, 52vh, 540px);
+  height: clamp(320px, 52vh, 540px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.stadium-intro-ball-glow {
+  position: absolute;
+  top: -15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130%;
+  height: 130%;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.15) 0%, rgba(56, 189, 248, 0.08) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  border-radius: 50%;
+}
+
+.stadium-intro-ball-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 -15px 35px rgba(255, 255, 255, 0.2)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.9));
+  will-change: transform;
+}
+
+/* Subtle Cinematic Vignette */
+.stadium-intro-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+  background: radial-gradient(circle at 50% 30%, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
+}
+
+/* Phase 5: Typography in the UPPER HALF of the viewport (0% to 50% height) */
+.stadium-intro-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50vh;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 3vh, 2.5rem) 1.5rem 0.5rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* 1. Main Heading (Two lines) */
+.stadium-intro-title {
+  font-size: clamp(1.6rem, 4.2vw, 3.1rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  max-width: 800px;
+  margin-bottom: 0.6rem;
+  opacity: 0;
+  transform: translateY(18px);
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 55%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.25));
+}
+
+/* 2. Subtitle */
+.stadium-intro-subtitle {
+  font-size: clamp(0.72rem, 1.6vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  margin-bottom: 0.4rem;
+  opacity: 0;
+  transform: translateY(14px);
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+}
+
+/* 3. Supporting Birthday Text */
+.stadium-intro-supporting {
+  font-size: clamp(0.68rem, 1.4vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fbbf24;
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+/* 4. ENTER THE STADIUM Button Wrapper & Button */
+.stadium-intro-btn-wrapper {
+  opacity: 0;
+  transform: translateY(18px);
+  pointer-events: auto;
+}
+
+.stadium-intro-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.95rem 2.4rem;
+  font-size: clamp(0.82rem, 1.6vw, 0.95rem);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #050b14;
+  background: linear-gradient(135deg, #fef08a 0%, #fbbf24 50%, #d97706 100%);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 
+    0 0 30px rgba(251, 191, 36, 0.45),
+    0 10px 25px -5px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, filter 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stadium-intro-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.stadium-intro-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 
+    0 0 45px rgba(251, 191, 36, 0.7),
+    0 15px 30px -5px rgba(0, 0, 0, 0.8);
+  filter: brightness(1.1);
+}
+
+.stadium-intro-btn:hover::before {
+  left: 100%;
+}
+
+.stadium-intro-btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stadium-intro-btn,
+  .stadium-intro-title,
+  .stadium-intro-subtitle,
+  .stadium-intro-supporting,
+  .stadium-intro-btn-wrapper,
+  .stadium-intro-ball-wrapper,
+  .stadium-intro-ball-img {
+    transition: none !important;
+    animation: none !important;
+  }
+}
