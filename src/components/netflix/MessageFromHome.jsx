@@ -105,3 +105,4 @@ export default function MessageFromHome({ onPlay, onMoreInfo }) {
     </section>
   );
 }
+
