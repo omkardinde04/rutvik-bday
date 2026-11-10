@@ -3,7 +3,12 @@ import { gsap } from 'gsap';
 import { ChevronRight } from 'lucide-react';
 import '../styles/stadium-intro.css';
 
-export default function StadiumIntro({ onEnter }) {
+export default function StadiumIntro({
+  onEnter,
+  isMuted = false,
+  hasInteracted = false,
+  onUserInteract,
+}) {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const ballWrapperRef = useRef(null);
@@ -18,6 +23,69 @@ export default function StadiumIntro({ onEnter }) {
 
   const timelineRef = useRef(null);
   const rotationTweenRef = useRef(null);
+  const isMutedRef = useRef(isMuted);
+  const hasCompletedVideoRef = useRef(false);
+
+  const effectiveMuted = hasInteracted ? isMuted : true;
+
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+    if (videoRef.current && hasInteracted) {
+      videoRef.current.muted = isMuted;
+    }
+  }, [isMuted, hasInteracted]);
+
+  // Mount / unmount playback & StrictMode resource lifecycle cleanup
+  useEffect(() => {
+    let isCancelled = false;
+    hasCompletedVideoRef.current = false;
+    const vid = videoRef.current;
+    if (vid && !isVideoFinished) {
+      vid.currentTime = 0;
+      vid.muted = effectiveMuted;
+      const attempt = vid.play();
+      if (attempt && typeof attempt.catch === 'function') {
+        attempt.catch((err) => {
+          if (isCancelled || err?.name === 'AbortError') return;
+          vid.muted = true;
+          vid.play().catch(() => {});
+        });
+      }
+    }
+
+    return () => {
+      isCancelled = true;
+      hasCompletedVideoRef.current = true;
+      if (vid) {
+        vid.pause();
+      }
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
+      if (rotationTweenRef.current) {
+        rotationTweenRef.current.kill();
+        rotationTweenRef.current = null;
+      }
+    };
+  }, []);
+
+  // Unlock unmuted audio smoothly after initial visitor interaction without showing a sound gate
+  useEffect(() => {
+    if (hasInteracted) return undefined;
+    const handleFirstInteraction = () => {
+      if (onUserInteract) onUserInteract();
+      if (videoRef.current && !isMutedRef.current) {
+        videoRef.current.muted = false;
+      }
+    };
+    window.addEventListener('pointerdown', handleFirstInteraction, { once: true, passive: true });
+    window.addEventListener('keydown', handleFirstInteraction, { once: true, passive: true });
+    return () => {
+      window.removeEventListener('pointerdown', handleFirstInteraction);
+      window.removeEventListener('keydown', handleFirstInteraction);
+    };
+  }, [hasInteracted, onUserInteract]);
 
   /**
    * Sequence executed once video ends + 500ms black-screen pause
@@ -107,9 +175,11 @@ export default function StadiumIntro({ onEnter }) {
   };
 
   /**
-   * Native video ended event handler
+   * Native video ended event handler (idempotent under StrictMode / duplicate events)
    */
   const handleVideoEnded = () => {
+    if (hasCompletedVideoRef.current) return;
+    hasCompletedVideoRef.current = true;
     setIsVideoFinished(true);
     startFootballAndTextSequence();
   };
@@ -118,9 +188,28 @@ export default function StadiumIntro({ onEnter }) {
    * Fallback if video fails to play
    */
   const handleVideoError = () => {
+    if (hasCompletedVideoRef.current) return;
+    hasCompletedVideoRef.current = true;
     console.warn('Intro video playback encountered an error; proceeding to football sequence.');
     setIsVideoFinished(true);
     startFootballAndTextSequence();
+  };
+
+  /**
+   * Recover playback safely if a slow connection buffered on initial load
+   */
+  const handleVideoCanPlay = () => {
+    const vid = videoRef.current;
+    if (!vid || hasCompletedVideoRef.current || !vid.paused) return;
+    vid.muted = effectiveMuted;
+    const attempt = vid.play();
+    if (attempt && typeof attempt.catch === 'function') {
+      attempt.catch((err) => {
+        if (err?.name === 'AbortError' || hasCompletedVideoRef.current) return;
+        vid.muted = true;
+        vid.play().catch(() => {});
+      });
+    }
   };
 
   /**
@@ -129,6 +218,7 @@ export default function StadiumIntro({ onEnter }) {
   const handleEnterClick = () => {
     if (isTransitioningOut) return;
     setIsTransitioningOut(true);
+    if (onUserInteract) onUserInteract();
     if (onEnter) onEnter();
   };
 
@@ -149,9 +239,10 @@ export default function StadiumIntro({ onEnter }) {
             className="stadium-intro-video"
             src="/assets/intro/friend-football.mp4"
             autoPlay
-            muted
+            muted={effectiveMuted}
             playsInline
             preload="auto"
+            onCanPlay={handleVideoCanPlay}
             onEnded={handleVideoEnded}
             onError={handleVideoError}
           />

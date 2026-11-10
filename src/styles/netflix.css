@@ -652,6 +652,54 @@
   transform: scale(1.05);
 }
 
+.nf-card-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.14) 0%,
+    rgba(0, 0, 0, 0) 42%,
+    rgba(0, 0, 0, 0.84) 100%
+  );
+  z-index: 1;
+}
+
+.nf-card-thumb-caption {
+  position: absolute;
+  left: 0.65rem;
+  right: 0.65rem;
+  bottom: 0.5rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  pointer-events: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  transition: opacity 0.2s ease;
+}
+
+.nf-video-card:hover .nf-card-thumb-caption {
+  opacity: 0;
+}
+
+.nf-card-thumb-ep {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #E50914;
+  text-transform: uppercase;
+}
+
+.nf-card-thumb-sender {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
 /* Bespoke Cinematic Poster Art Fallback */
 .nf-poster-art {
   width: 100%;
@@ -771,13 +819,25 @@
 .nf-card-play-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.42);
+  background: rgba(0, 0, 0, 0.46);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.55rem;
+  padding: 0.75rem;
+  text-align: center;
   opacity: 0;
   transition: opacity 0.22s ease;
   z-index: 4;
+}
+
+.nf-card-hover-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
 .nf-video-card:hover .nf-card-play-overlay {
@@ -837,10 +897,11 @@
 }
 
 .nf-card-title {
-  font-size: 0.98rem;
-  font-weight: 700;
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
   color: #ffffff;
-  margin-bottom: 0.22rem;
+  margin-bottom: 0.35rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1342,12 +1403,11 @@
 }
 
 .nf-player-controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem 1.35rem;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.65) 60%, transparent 100%);
+  position: relative;
+  width: 100%;
+  padding: 0.9rem 1.35rem 1rem;
+  background: rgba(12, 12, 12, 0.98);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 15;
 }
 
@@ -1401,6 +1461,7 @@
   font-size: 0.82rem;
   font-variant-numeric: tabular-nums;
   color: #d4d4d4;
+  white-space: nowrap;
 }
 
 .nf-player-info-bar {
@@ -1570,17 +1631,30 @@
   .nf-episode-thumb-mini {
     display: none;
   }
-  .nf-stadium-switch-btn span {
-    display: none;
-  }
   .nf-search-wrapper.open .nf-search-input {
     width: 125px;
+  }
+  .nf-volume-slider {
+    width: 54px;
+  }
+  .nf-controls-left,
+  .nf-controls-right {
+    gap: 0.5rem;
   }
   .nf-hero-maturity-tag {
     display: none;
   }
   .nf-goat-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (hover: none) {
+  .nf-card-play-overlay {
+    display: none;
+  }
+  .nf-video-card:hover .nf-card-thumb-caption {
+    opacity: 1;
   }
 }
 

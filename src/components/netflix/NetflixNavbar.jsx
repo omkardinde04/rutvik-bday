@@ -5,12 +5,10 @@ import {
   Menu,
   X,
   RotateCcw,
-  Shield,
 } from 'lucide-react';
 
 export default function NetflixNavbar({
   activeCategory,
-  onOpenStadium,
   onReplayIntro,
   searchQuery,
   onSearchChange,
@@ -110,17 +108,6 @@ export default function NetflixNavbar({
       </div>
 
       <div className="nf-nav-right">
-        {/* Switch to Preserved Stadium Edition */}
-        <button
-          type="button"
-          className="nf-stadium-switch-btn"
-          onClick={onOpenStadium}
-          title="Switch to Matchday Stadium Edition"
-        >
-          <Shield size={14} color="#10b981" />
-          <span>STADIUM EDITION</span>
-        </button>
-
         {/* Expandable Search across the 9 birthday videos */}
         <div className={`nf-search-wrapper ${isSearchOpen ? 'open' : ''}`}>
           <button
@@ -173,21 +160,9 @@ export default function NetflixNavbar({
                   }}
                 >
                   <RotateCcw size={15} color="#38bdf8" />
-                  <span>Replay Cinematic Intro</span>
+                  <span>Replay Opening Sequence</span>
                 </button>
               )}
-
-              <button
-                type="button"
-                className="nf-dropdown-item"
-                onClick={() => {
-                  setIsProfileOpen(false);
-                  onOpenStadium?.();
-                }}
-              >
-                <Shield size={15} color="#10b981" />
-                <span>Switch to Stadium Edition</span>
-              </button>
             </div>
           )}
         </div>
@@ -234,32 +209,32 @@ export default function NetflixNavbar({
               <li style={{ paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                 <button
                   type="button"
-                  className="nf-stadium-switch-btn"
-                  style={{ width: '100%', justifyContent: 'center', marginBottom: '0.5rem' }}
+                  style={{
+                    width: '100%',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.55rem',
+                    padding: '0.7rem 1rem',
+                    borderRadius: '6px',
+                    background: 'rgba(56, 189, 248, 0.1)',
+                    border: '1px solid rgba(56, 189, 248, 0.35)',
+                    color: '#ffffff',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.06em',
+                    cursor: 'pointer',
+                  }}
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     onReplayIntro();
                   }}
                 >
                   <RotateCcw size={15} color="#38bdf8" />
-                  <span>REPLAY CINEMATIC INTRO</span>
+                  <span>REPLAY OPENING SEQUENCE</span>
                 </button>
               </li>
             )}
-            <li style={!onReplayIntro ? { paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.1)' } : undefined}>
-              <button
-                type="button"
-                className="nf-stadium-switch-btn"
-                style={{ width: '100%', justifyContent: 'center' }}
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenStadium();
-                }}
-              >
-                <Shield size={15} color="#10b981" />
-                <span>OPEN STADIUM EDITION</span>
-              </button>
-            </li>
           </ul>
         </div>
       )}

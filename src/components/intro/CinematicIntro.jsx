@@ -22,9 +22,14 @@ const STEP_TO_VIDEO_INDEX = {
 
 export const INTRO_SKIPPED_STORAGE_KEY = 'rutvik_plus_intro_skipped';
 
-export default function CinematicIntro({ onFinishIntro, initialStep = INTRO_STEPS.WELCOME }) {
+export default function CinematicIntro({
+  onFinishIntro,
+  initialStep = INTRO_STEPS.WELCOME,
+  initialMuted = false,
+  onReplaySequence,
+}) {
   const [step, setStep] = useState(initialStep);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(initialMuted);
 
   const handleStartSequence = useCallback(() => {
     setStep(INTRO_STEPS.VIDEO_1);
@@ -41,22 +46,16 @@ export default function CinematicIntro({ onFinishIntro, initialStep = INTRO_STEP
   }, []);
 
   const handleSkip = useCallback(() => {
-    try {
-      window.sessionStorage.setItem(INTRO_SKIPPED_STORAGE_KEY, 'true');
-    } catch {
-      // Ignore storage errors in private browsing
-    }
     setStep(INTRO_STEPS.REVEAL);
   }, []);
 
   const handleReplay = useCallback(() => {
-    try {
-      window.sessionStorage.removeItem(INTRO_SKIPPED_STORAGE_KEY);
-    } catch {
-      // Ignore storage errors
+    if (typeof onReplaySequence === 'function') {
+      onReplaySequence();
+      return;
     }
     setStep(INTRO_STEPS.VIDEO_1);
-  }, []);
+  }, [onReplaySequence]);
 
   const handleEnterPlatform = useCallback(() => {
     setStep(INTRO_STEPS.LOADING);

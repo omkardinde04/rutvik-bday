@@ -42,6 +42,15 @@ export default function IntroVideoPlayer({
   const isReveal = step === 'RUTVIK_REVEAL';
   const isVideoPhase = activeIndex >= 0 && activeIndex <= 2;
 
+  // Pause all preloaded video layers cleanly on unmount (StrictMode & step transitions)
+  useEffect(() => {
+    return () => {
+      videoRefs.current.forEach((vid) => {
+        if (vid) vid.pause();
+      });
+    };
+  }, []);
+
   // Keep mute attribute synced across all video layers
   useEffect(() => {
     videoRefs.current.forEach((vid) => {
@@ -271,6 +280,7 @@ export default function IntroVideoPlayer({
           playsInline
           muted={isMuted}
           onLoadedMetadata={handleCurtainMetadata}
+          onLoadedData={handleCurtainMetadata}
           onTimeUpdate={(e) => handleTimeUpdate(1, e)}
           onEnded={() => handleEnded(1)}
           onError={() => {

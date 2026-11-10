@@ -3,7 +3,7 @@ import { Play, Info, Heart } from 'lucide-react';
 import { PARENTS_VIDEO } from '../../data/videoCatalog';
 import VideoCard from './VideoCard';
 
-export default function MessageFromHome({ onPlay, onMoreInfo }) {
+export default function MessageFromHome({ onPlay, onMoreInfo, video = PARENTS_VIDEO }) {
   return (
     <section
       className="nf-home-message-section"
@@ -33,7 +33,7 @@ export default function MessageFromHome({ onPlay, onMoreInfo }) {
         }}
       >
         <VideoCard
-          video={PARENTS_VIDEO}
+          video={video}
           onPlay={onPlay}
           onMoreInfo={onMoreInfo}
         />

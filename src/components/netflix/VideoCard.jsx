@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
-import { Play, Info, Heart, Check, Plus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Play, Info, Heart } from 'lucide-react';
+import { getEpisodeThumbnail } from '../../data/videoCatalog';
 
 export default function VideoCard({ video, onPlay, onMoreInfo, isContinueWatching = false }) {
+  const initialThumb = getEpisodeThumbnail(video);
+  const [imgSrc, setImgSrc] = useState(initialThumb);
   const [imageError, setImageError] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
+  useEffect(() => {
+    setImgSrc(getEpisodeThumbnail(video));
+    setImageError(false);
+  }, [video?.id, video?.thumbnail, video?.customThumbnail, video?.fallbackThumbnail]);
+
   const themeClass = `nf-poster-art--${video.posterTheme || 'crimson'}`;
   const sender = video.senderName || video.personName || 'Friends & Family';
+  const showDistinctSender = Boolean(sender && sender !== video.title);
   const isAwaitingUpload = Boolean(video.isPlaceholder || video.status === 'awaiting-upload');
   const isSampleReel = Boolean(video.isSamplePreview);
+
+  const handleThumbError = () => {
+    if (video?.fallbackThumbnail && imgSrc !== video.fallbackThumbnail) {
+      setImgSrc(video.fallbackThumbnail);
+      return;
+    }
+    setImageError(true);
+  };
 
   const handleCardClick = (e) => {
     // Prevent triggering when clicking mini buttons specifically
@@ -22,7 +39,7 @@ export default function VideoCard({ video, onPlay, onMoreInfo, isContinueWatchin
       onClick={handleCardClick}
       role="button"
       tabIndex={0}
-      aria-label={`Play ${video.title} - ${sender}`}
+      aria-label={showDistinctSender ? `Play ${video.title} - ${sender}` : `Play ${video.title}`}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -32,15 +49,21 @@ export default function VideoCard({ video, onPlay, onMoreInfo, isContinueWatchin
     >
       {/* 16:9 Media Aspect Container */}
       <div className="nf-card-media">
-        {video.thumbnail && !imageError ? (
+        {imgSrc && !imageError ? (
           <>
             <img
               className="nf-card-img"
-              src={video.thumbnail}
-              alt={video.title}
-              onError={() => setImageError(true)}
+              src={imgSrc}
+              alt={showDistinctSender ? `${sender} - ${video.title}` : video.title}
+              style={{ objectPosition: 'center 20%' }}
+              onError={handleThumbError}
               loading="lazy"
             />
+            <div className="nf-card-scrim" aria-hidden="true" />
+            <div className="nf-card-thumb-caption" aria-hidden="true">
+              <span className="nf-card-thumb-ep">{video.episodeNumber}</span>
+              <span className="nf-card-thumb-sender">{sender}</span>
+            </div>
             {(isAwaitingUpload || isSampleReel) && (
               <span
                 style={{
@@ -100,6 +123,11 @@ export default function VideoCard({ video, onPlay, onMoreInfo, isContinueWatchin
           <div className="nf-card-play-circle">
             <Play size={20} fill="#ffffff" />
           </div>
+          {sender && (
+            <span className="nf-card-hover-label">
+              A message from {sender}
+            </span>
+          )}
         </div>
 
         {/* Continue Watching Red Progress Bar */}
@@ -125,9 +153,11 @@ export default function VideoCard({ video, onPlay, onMoreInfo, isContinueWatchin
           {video.title}
         </h3>
 
-        <div className="nf-card-person">
-          From: {sender}
-        </div>
+        {showDistinctSender && (
+          <div className="nf-card-person">
+            From: {sender}
+          </div>
+        )}
 
         <p className="nf-card-desc">
           {video.description}

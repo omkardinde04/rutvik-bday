@@ -4,6 +4,8 @@ import {
   ALL_VIDEOS,
   FRIENDS_VIDEOS,
   HERO_FEATURED_CONTENT,
+  PARENTS_VIDEO,
+  getSavedWatchProgress,
 } from '../../data/videoCatalog';
 import NetflixNavbar from './NetflixNavbar';
 import HeroBanner from './HeroBanner';
@@ -13,11 +15,12 @@ import MessageFromHome from './MessageFromHome';
 import CinematicVideoPlayer from './CinematicVideoPlayer';
 import MoreInfoModal from './MoreInfoModal';
 
-export default function RuthvikPlusExperience({ onSwitchToStadium, onReplayIntro }) {
+export default function RuthvikPlusExperience({ onReplayIntro }) {
   const [activeVideo, setActiveVideo] = useState(null);
   const [moreInfoItem, setMoreInfoItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeNav, setActiveNav] = useState('home');
+  const [progressTick, setProgressTick] = useState(0);
 
   const handlePlayVideo = (video) => {
     setMoreInfoItem(null);
@@ -26,6 +29,7 @@ export default function RuthvikPlusExperience({ onSwitchToStadium, onReplayIntro
 
   const handleClosePlayer = () => {
     setActiveVideo(null);
+    setProgressTick((prev) => prev + 1);
   };
 
   const handleScrollToSection = (sectionId) => {
@@ -40,18 +44,33 @@ export default function RuthvikPlusExperience({ onSwitchToStadium, onReplayIntro
     }, 50);
   };
 
+  const friendsWithProgress = useMemo(() => {
+    void progressTick;
+    return FRIENDS_VIDEOS.map((video) => {
+      const saved = getSavedWatchProgress(video.id);
+      return saved ? { ...video, ...saved } : video;
+    });
+  }, [progressTick]);
+
+  const parentsWithProgress = useMemo(() => {
+    void progressTick;
+    const saved = getSavedWatchProgress(PARENTS_VIDEO.id);
+    return saved ? { ...PARENTS_VIDEO, ...saved } : PARENTS_VIDEO;
+  }, [progressTick]);
+
   // Search filtering across the 9 birthday videos (8 friends + 1 parents)
   const searchResults = useMemo(() => {
+    void progressTick;
     const q = searchQuery.trim().toLowerCase();
     if (!q) return [];
-    return ALL_VIDEOS.filter(
+    return [...friendsWithProgress, parentsWithProgress].filter(
       (v) =>
         (v.title || '').toLowerCase().includes(q) ||
         (v.senderName || v.personName || '').toLowerCase().includes(q) ||
         (v.category || v.collection || '').toLowerCase().includes(q) ||
         (v.description || '').toLowerCase().includes(q)
     );
-  }, [searchQuery]);
+  }, [searchQuery, friendsWithProgress, parentsWithProgress, progressTick]);
 
   const isSearching = searchQuery.trim().length > 0;
 
@@ -61,7 +80,6 @@ export default function RuthvikPlusExperience({ onSwitchToStadium, onReplayIntro
       <NetflixNavbar
         activeCategory={activeNav}
         onSelectCategory={setActiveNav}
-        onOpenStadium={onSwitchToStadium}
         onReplayIntro={onReplayIntro}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -107,14 +125,15 @@ export default function RuthvikPlusExperience({ onSwitchToStadium, onReplayIntro
             <ContentCarousel
               id="people-behind-the-legend"
               title="THE PEOPLE BEHIND THE LEGEND"
-              subtitle="Eight individual birthday episodes from his closest friends"
-              videos={FRIENDS_VIDEOS}
+              subtitle="Eight people. Countless memories."
+              videos={friendsWithProgress}
               onPlay={handlePlayVideo}
               onMoreInfo={setMoreInfoItem}
             />
 
             {/* 4. Collection 2: A MESSAGE FROM HOME (Dedicated Parents' Video) */}
             <MessageFromHome
+              video={parentsWithProgress}
               onPlay={handlePlayVideo}
               onMoreInfo={setMoreInfoItem}
             />

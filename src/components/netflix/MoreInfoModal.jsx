@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { X, Play, Heart, Share2, Sparkles } from 'lucide-react';
-import { ALL_VIDEOS } from '../../data/videoCatalog';
+import { X, Play } from 'lucide-react';
+import { ALL_VIDEOS, getEpisodeThumbnail } from '../../data/videoCatalog';
 
 export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
   useEffect(() => {
@@ -27,6 +27,8 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
   };
   const episodeListHeading = sectionTitleMap[item.section] || 'The People Behind The Legend';
 
+  const modalHeroImg = getEpisodeThumbnail(item) || item.heroImage || null;
+
   return (
     <div
       className="nf-modal-backdrop"
@@ -41,11 +43,17 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
       <div className="nf-modal-card">
         {/* Top Modal Hero Header */}
         <div className="nf-modal-hero">
-          <img
-            className="nf-modal-hero-img"
-            src={item.heroImage || '/assets/intro/football.png'}
-            alt={item.title}
-          />
+          {modalHeroImg ? (
+            <img
+              className="nf-modal-hero-img"
+              src={modalHeroImg}
+              alt={item.title}
+            />
+          ) : (
+            <div className={`nf-poster-art nf-poster-art--${item.posterTheme || 'crimson'}`} aria-hidden="true">
+              <div className="nf-poster-pattern" />
+            </div>
+          )}
           <div className="nf-modal-hero-gradient" />
 
           <button
@@ -138,7 +146,9 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
             </div>
 
             <div>
-              {matchingEpisodes.map((ep, idx) => (
+              {matchingEpisodes.map((ep, idx) => {
+                const epThumb = getEpisodeThumbnail(ep);
+                return (
                 <div
                   key={ep.id}
                   className="nf-episode-list-item"
@@ -162,14 +172,30 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
                       alignItems: 'center',
                       justifyContent: 'center',
                       position: 'relative',
+                      overflow: 'hidden',
                     }}
                   >
-                    <Play size={22} fill="#ffffff" color="#ffffff" />
+                    {epThumb && (
+                      <img
+                        src={epThumb}
+                        alt={ep.title}
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          objectPosition: 'center 20%',
+                          opacity: 0.72,
+                        }}
+                      />
+                    )}
+                    <Play size={22} fill="#ffffff" color="#ffffff" style={{ position: 'relative', zIndex: 2 }} />
                   </div>
 
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-                      <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>
+                      <span style={{ fontWeight: 700, fontSize: '1rem', color: '#ffffff' }}>
                         {ep.title}
                         {ep.isPlaceholder && (
                           <span style={{ marginLeft: '0.5rem', fontSize: '0.66rem', color: '#fbbf24', border: '1px solid rgba(251, 191, 36, 0.45)', padding: '0.1rem 0.35rem', borderRadius: '3px', verticalAlign: 'middle' }}>
@@ -179,15 +205,26 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
                       </span>
                       <span style={{ fontSize: '0.8rem', color: '#9ca3af' }}>{ep.duration}</span>
                     </div>
-                    <div style={{ fontSize: '0.76rem', color: '#46d369', fontWeight: 600, marginBottom: '0.2rem' }}>
-                      {ep.senderName || ep.personName}
+                    <div
+                      style={{
+                        fontSize: '0.74rem',
+                        color: ep.title === (ep.senderName || ep.personName) ? '#E50914' : '#46d369',
+                        fontWeight: 700,
+                        letterSpacing: ep.title === (ep.senderName || ep.personName) ? '0.06em' : 'normal',
+                        marginBottom: '0.2rem',
+                      }}
+                    >
+                      {ep.title === (ep.senderName || ep.personName)
+                        ? ep.episodeNumber
+                        : ep.senderName || ep.personName}
                     </div>
                     <p style={{ fontSize: '0.8rem', color: '#b3b3b3', lineHeight: 1.4 }}>
                       {ep.description}
                     </p>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

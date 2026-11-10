@@ -161,9 +161,11 @@ function createStreakData(count = 72) {
 
 export default function RutvikLoadingAnimation({ isMuted = false, onComplete }) {
   const canvasRef = useRef(null);
+  const hasCompletedRef = useRef(false);
   const [phase, setPhase] = useState('act1'); // 'act1' | 'act2' | 'act3' | 'act4' | 'act5' | 'fadeout'
 
   useEffect(() => {
+    hasCompletedRef.current = false;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let audioCtx = null;
 
@@ -174,7 +176,12 @@ export default function RutvikLoadingAnimation({ isMuted = false, onComplete }) 
     if (prefersReducedMotion) {
       setPhase('act4');
       const fadeT = window.setTimeout(() => setPhase('fadeout'), REDUCED_MOTION_DURATION_MS - 300);
-      const doneT = window.setTimeout(() => onComplete?.(), REDUCED_MOTION_DURATION_MS);
+      const doneT = window.setTimeout(() => {
+        if (!hasCompletedRef.current) {
+          hasCompletedRef.current = true;
+          onComplete?.();
+        }
+      }, REDUCED_MOTION_DURATION_MS);
       return () => {
         window.clearTimeout(fadeT);
         window.clearTimeout(doneT);
@@ -349,7 +356,8 @@ export default function RutvikLoadingAnimation({ isMuted = false, onComplete }) 
 
       if (elapsed < TOTAL_DURATION_MS) {
         rafId = requestAnimationFrame(renderFrame);
-      } else {
+      } else if (!hasCompletedRef.current) {
+        hasCompletedRef.current = true;
         onComplete?.();
       }
     };
