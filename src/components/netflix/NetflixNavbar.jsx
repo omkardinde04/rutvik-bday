@@ -17,6 +17,7 @@ export default function NetflixNavbar({
   activeCategory,
   onSelectCategory,
   onOpenStadium,
+  onReplayIntro,
   searchQuery,
   onSearchChange,
   onPlayTrailer,
@@ -68,12 +69,12 @@ export default function NetflixNavbar({
 
   const navItems = [
     { id: 'home', label: 'Home', sectionId: 'hero' },
-    { id: 'series', label: 'Series', sectionId: 'row-rutvik-originals' },
-    { id: 'the-boys', label: 'The Boys', sectionId: 'row-the-boys' },
+    { id: 'legend', label: 'The Legend', sectionId: 'row-people-behind-the-legend' },
+    { id: 'other-friends', label: 'Other Friends', sectionId: 'row-other-friends' },
     { id: 'family', label: 'Family', sectionId: 'row-family-collection' },
-    { id: 'football', label: 'Football', sectionId: 'row-football-collection' },
     { id: 'memories', label: 'Memories', sectionId: 'row-memories' },
-    { id: 'special', label: 'Birthday Special', sectionId: 'finale' },
+    { id: 'special', label: 'Special', sectionId: 'row-special-episodes' },
+    { id: 'finale', label: 'Grand Finale', sectionId: 'finale' },
   ];
 
   const handleNavClick = (item) => {
@@ -95,15 +96,15 @@ export default function NetflixNavbar({
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* RUTHVIK+ Brand Logo */}
+        {/* RUTVIK+ Brand Logo */}
         <div
           className="nf-logo"
           onClick={() => onScrollToSection && onScrollToSection('hero')}
           role="button"
           tabIndex={0}
-          aria-label="RUTHVIK+ Home"
+          aria-label="RUTVIK+ Home"
         >
-          <span>RUTHVIK</span>
+          <span>RUTVIK</span>
           <span className="nf-logo-plus">+</span>
         </div>
 
@@ -233,6 +234,20 @@ export default function NetflixNavbar({
                 <span>Play Birthday Trailer</span>
               </button>
 
+              {onReplayIntro && (
+                <button
+                  type="button"
+                  className="nf-dropdown-item"
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    onReplayIntro();
+                  }}
+                >
+                  <RotateCcw size={15} color="#38bdf8" />
+                  <span>Replay Cinematic Intro</span>
+                </button>
+              )}
+
               <button
                 type="button"
                 className="nf-dropdown-item"
@@ -298,7 +313,23 @@ export default function NetflixNavbar({
                 </button>
               </li>
             ))}
-            <li style={{ paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            {onReplayIntro && (
+              <li style={{ paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <button
+                  type="button"
+                  className="nf-stadium-switch-btn"
+                  style={{ width: '100%', justifyContent: 'center', marginBottom: '0.5rem' }}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    onReplayIntro();
+                  }}
+                >
+                  <RotateCcw size={15} color="#38bdf8" />
+                  <span>REPLAY CINEMATIC INTRO</span>
+                </button>
+              </li>
+            )}
+            <li style={!onReplayIntro ? { paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.1)' } : undefined}>
               <button
                 type="button"
                 className="nf-stadium-switch-btn"

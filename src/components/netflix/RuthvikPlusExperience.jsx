@@ -19,7 +19,7 @@ import FriendshipWall from './FriendshipWall';
 import EndCredits from './EndCredits';
 import GrandFinale from './GrandFinale';
 
-export default function RuthvikPlusExperience({ onSwitchToStadium }) {
+export default function RuthvikPlusExperience({ onSwitchToStadium, onReplayIntro }) {
   const [activeVideo, setActiveVideo] = useState(null);
   const [moreInfoItem, setMoreInfoItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,16 +28,7 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
   const [continueWatching, setContinueWatching] = useState([]);
 
   const loadContinueWatching = () => {
-    const stored = getContinueWatchingItems();
-    if (stored.length > 0) {
-      setContinueWatching(stored);
-    } else {
-      // Seed only real existing Stadium Edition footage on first visit (never unuploaded wish placeholders)
-      const starters = [
-        { ...ALL_VIDEOS.find((v) => v.id === 'football-1'), progressPercent: 35 },
-      ].filter((v) => Boolean(v && v.id));
-      setContinueWatching(starters);
-    }
+    setContinueWatching(getContinueWatchingItems());
   };
 
   useEffect(() => {
@@ -89,12 +80,13 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
   const isSearching = searchQuery.trim().length > 0;
 
   return (
-    <div className="ruthvik-netflix-root">
+    <div className="rutvik-netflix-root">
       {/* Netflix-style Navigation */}
       <NetflixNavbar
         activeCategory={activeNav}
         onSelectCategory={setActiveNav}
         onOpenStadium={onSwitchToStadium}
+        onReplayIntro={onReplayIntro}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onPlayTrailer={() => handlePlayVideo(HERO_FEATURED_CONTENT)}
@@ -177,18 +169,20 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
               </section>
             ) : (
               <>
-                {/* Section 1: CONTINUE WATCHING */}
-                <ContentCarousel
-                  id="continue-watching"
-                  title="CONTINUE WATCHING FOR RUTVIK"
-                  subtitle="Pick up right where you left off"
-                  videos={continueWatching}
-                  onPlay={handlePlayVideo}
-                  onMoreInfo={setMoreInfoItem}
-                  isContinueWatching={true}
-                />
+                {/* Section 2: CONTINUE WATCHING (only rendered if actual watch progress exists) */}
+                {continueWatching.length > 0 && (
+                  <ContentCarousel
+                    id="continue-watching"
+                    title="CONTINUE WATCHING FOR RUTVIK"
+                    subtitle="Pick up right where you left off"
+                    videos={continueWatching}
+                    onPlay={handlePlayVideo}
+                    onMoreInfo={setMoreInfoItem}
+                    isContinueWatching={true}
+                  />
+                )}
 
-                {/* Section 2: RUTVIK ORIGINALS */}
+                {/* Section 3: THE PEOPLE BEHIND THE LEGEND */}
                 <ContentCarousel
                   id={SECTION_ROWS[0].id}
                   title={SECTION_ROWS[0].title}
@@ -198,17 +192,7 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
                   onMoreInfo={setMoreInfoItem}
                 />
 
-                {/* Section 2B: THE PEOPLE BEHIND THE LEGEND */}
-                <ContentCarousel
-                  id={SECTION_ROWS[6].id}
-                  title={SECTION_ROWS[6].title}
-                  subtitle={SECTION_ROWS[6].subtitle}
-                  videos={ALL_VIDEOS.filter(SECTION_ROWS[6].filter)}
-                  onPlay={handlePlayVideo}
-                  onMoreInfo={setMoreInfoItem}
-                />
-
-                {/* Section 3: THE BOYS */}
+                {/* Section 4: OTHER FRIENDS */}
                 <ContentCarousel
                   id={SECTION_ROWS[1].id}
                   title={SECTION_ROWS[1].title}
@@ -218,7 +202,7 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
                   onMoreInfo={setMoreInfoItem}
                 />
 
-                {/* Section 4: FAMILY COLLECTION */}
+                {/* Section 5: FAMILY COLLECTION */}
                 <ContentCarousel
                   id={SECTION_ROWS[2].id}
                   title={SECTION_ROWS[2].title}
@@ -228,7 +212,7 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
                   onMoreInfo={setMoreInfoItem}
                 />
 
-                {/* Section 5: THE FOOTBALL COLLECTION + G.O.A.T. SPOTLIGHT */}
+                {/* Section 6: MEMORIES & HALL OF FAME + Football G.O.A.T. Spotlight */}
                 <ContentCarousel
                   id={SECTION_ROWS[3].id}
                   title={SECTION_ROWS[3].title}
@@ -243,7 +227,7 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
                   onOpenStadium={onSwitchToStadium}
                 />
 
-                {/* Section 6: MEMORIES & HALL OF FAME */}
+                {/* Section 7: SPECIAL EPISODES & BIRTHDAY TRAILER */}
                 <ContentCarousel
                   id={SECTION_ROWS[4].id}
                   title={SECTION_ROWS[4].title}
@@ -253,29 +237,21 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
                   onMoreInfo={setMoreInfoItem}
                 />
 
-                {/* Section 7: SPECIAL EPISODES & BIRTHDAY TRAILER */}
-                <ContentCarousel
-                  id={SECTION_ROWS[5].id}
-                  title={SECTION_ROWS[5].title}
-                  subtitle={SECTION_ROWS[5].subtitle}
-                  videos={ALL_VIDEOS.filter(SECTION_ROWS[5].filter)}
-                  onPlay={handlePlayVideo}
-                  onMoreInfo={setMoreInfoItem}
-                />
-
                 <BirthdayTrailer onPlayTrailer={handlePlayVideo} />
 
-                {/* Personalization: Friendship & Family Wall */}
+                {/* Section 8: GRAND FINALE (Combined Birthday Tribute + Celebration + Wall & Credits) */}
+                <GrandFinale
+                  onPlayFinaleVideo={handlePlayVideo}
+                  onMoreInfo={setMoreInfoItem}
+                  onOpenStadium={onSwitchToStadium}
+                  onReplayIntro={onReplayIntro}
+                />
+
+                {/* Friendship & Family Wall */}
                 <FriendshipWall />
 
                 {/* Cinematic Rolling End Credits */}
                 <EndCredits />
-
-                {/* Grand Finale Celebration */}
-                <GrandFinale
-                  onPlayFinaleVideo={handlePlayVideo}
-                  onOpenStadium={onSwitchToStadium}
-                />
               </>
             )}
           </div>
@@ -285,7 +261,7 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
       {/* Footer */}
       <footer className="nf-footer">
         <div>
-          <strong style={{ color: '#E50914', letterSpacing: '0.06em' }}>RUTHVIK+</strong>
+          <strong style={{ color: '#E50914', letterSpacing: '0.06em' }}>RUTVIK+</strong>
           <span> • A Special Collection, Made Just For You.</span>
         </div>
         <div>

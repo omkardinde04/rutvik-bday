@@ -5,11 +5,24 @@ import HeroSection from './sections/HeroSection';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import ChroniclesExperience from './components/ChroniclesExperience';
 import RuthvikPlusExperience from './components/netflix/RuthvikPlusExperience';
+import CinematicIntro, { INTRO_SKIPPED_STORAGE_KEY } from './components/intro/CinematicIntro';
 import { Tv } from 'lucide-react';
+
+function resolveInitialMode() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('mode') === 'stadium') return 'stadium';
+    if (params.get('view') === 'home' || params.get('skipIntro') === '1') return 'netflix';
+    if (window.sessionStorage.getItem(INTRO_SKIPPED_STORAGE_KEY) === 'true') return 'netflix';
+  } catch {
+    // Default to cinematic opening sequence
+  }
+  return 'intro';
+}
 
 export default function App() {
   const [hasEntered, setHasEntered] = useState(false);
-  const [experienceMode, setExperienceMode] = useState('netflix'); // 'netflix' | 'stadium'
+  const [experienceMode, setExperienceMode] = useState(resolveInitialMode); // 'intro' | 'netflix' | 'stadium'
 
   // Initialize Lenis smooth scroll synchronized with GSAP ScrollTrigger
   useSmoothScroll();
@@ -18,9 +31,29 @@ export default function App() {
     setHasEntered(true);
   };
 
+  if (experienceMode === 'intro') {
+    return (
+      <CinematicIntro
+        onFinishIntro={() => {
+          setExperienceMode('netflix');
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }}
+      />
+    );
+  }
+
   if (experienceMode === 'netflix') {
     return (
       <RuthvikPlusExperience
+        onReplayIntro={() => {
+          try {
+            window.sessionStorage.removeItem(INTRO_SKIPPED_STORAGE_KEY);
+          } catch {
+            // Ignore storage errors
+          }
+          setExperienceMode('intro');
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }}
         onSwitchToStadium={() => {
           setHasEntered(false);
           setExperienceMode('stadium');
@@ -32,7 +65,7 @@ export default function App() {
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: 'var(--color-pitch-dark)' }}>
-      {/* Floating Return to RUTHVIK+ Controller */}
+      {/* Floating Return to RUTVIK+ Controller */}
       <div
         style={{
           position: 'fixed',
@@ -64,7 +97,7 @@ export default function App() {
           }}
         >
           <Tv size={15} color="#E50914" />
-          <span>Return to RUTHVIK+</span>
+          <span>Return to RUTVIK+</span>
         </button>
       </div>
 

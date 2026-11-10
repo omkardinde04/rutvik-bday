@@ -24,7 +24,7 @@ export default function HeroBanner({ onPlay, onMoreInfo }) {
         {/* Netflix Original Signature Stamp */}
         <div className="nf-original-badge">
           <span className="nf-n-mark">N</span>
-          <span className="nf-original-label">RUTHVIK+ ORIGINAL</span>
+          <span className="nf-original-label">RUTVIK+ ORIGINAL</span>
         </div>
 
         {/* Main Display Headline */}

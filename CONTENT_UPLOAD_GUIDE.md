@@ -1,4 +1,4 @@
-# RUTHVIK+ Content Upload & Integration Guide
+# RUTVIK+ Content Upload & Integration Guide
 
 This guide explains how to upload birthday MP4 videos and custom thumbnails from friends and family without editing any React UI components or touching Stadium Edition files.
 

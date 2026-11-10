@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Play, Sparkles, PartyPopper, Heart, Shield } from 'lucide-react';
+import { Play, Sparkles, PartyPopper, Shield, RotateCcw } from 'lucide-react';
 import { ALL_VIDEOS } from '../../data/videoCatalog';
+import VideoCard from './VideoCard';
 
 const CONFETTI_COLORS = ['#E50914', '#fbbf24', '#10b981', '#38bdf8', '#ffffff', '#ec4899'];
 
-export default function GrandFinale({ onPlayFinaleVideo, onOpenStadium }) {
+export default function GrandFinale({ onPlayFinaleVideo, onMoreInfo, onOpenStadium, onReplayIntro }) {
   const [celebrateActive, setCelebrateActive] = useState(false);
 
   const finaleVideo = ALL_VIDEOS.find((v) => v.id === 'spec-finale') || ALL_VIDEOS[0];
@@ -17,7 +18,24 @@ export default function GrandFinale({ onPlayFinaleVideo, onOpenStadium }) {
   }));
 
   return (
-    <section className="nf-finale-section" id="finale" aria-label="The Grand Finale Birthday Surprise">
+    <section className="nf-finale-section" id="finale" aria-label="Grand Finale Birthday Surprise">
+      {/* Section Header */}
+      <div style={{ marginBottom: '1.25rem' }}>
+        <h2 className="nf-carousel-title">GRAND FINALE</h2>
+        <span className="nf-carousel-subtitle">
+          The combined birthday tribute and final celebration
+        </span>
+      </div>
+
+      {/* Featured Finale Episode Card */}
+      <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'flex-start' }}>
+        <VideoCard
+          video={finaleVideo}
+          onPlay={onPlayFinaleVideo}
+          onMoreInfo={onMoreInfo}
+        />
+      </div>
+
       <div className="nf-finale-card">
         {/* Confetti Layer when celebration is triggered */}
         {celebrateActive && (
@@ -73,13 +91,24 @@ export default function GrandFinale({ onPlayFinaleVideo, onOpenStadium }) {
               <span>{celebrateActive ? 'CELEBRATING! 🎉' : 'POP BIRTHDAY CONFETTI'}</span>
             </button>
 
+            {onReplayIntro && (
+              <button
+                type="button"
+                className="nf-btn-info"
+                onClick={onReplayIntro}
+              >
+                <RotateCcw size={18} color="#38bdf8" />
+                <span>REPLAY OPENING INTRO</span>
+              </button>
+            )}
+
             <button
               type="button"
               className="nf-btn-info"
               onClick={onOpenStadium}
             >
               <Shield size={18} color="#10b981" />
-              <span>REPLAY STADIUM INTRO</span>
+              <span>OPEN STADIUM EDITION</span>
             </button>
           </div>
         </div>

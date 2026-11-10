@@ -17,19 +17,21 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
   const categoryLabel = item.category || item.collection || 'Rutvik Originals';
 
   const matchingEpisodes =
-    item.section && item.section !== 'rutvik-originals'
+    item.section
       ? ALL_VIDEOS.filter((v) => v.section === item.section)
-      : ALL_VIDEOS.filter((v) => v.section === 'rutvik-originals');
+      : ALL_VIDEOS.filter((v) => v.section === 'people-behind-the-legend');
 
   const sectionTitleMap = {
     'people-behind-the-legend': 'The People Behind The Legend',
-    'the-boys': 'The Boys Collection',
+    'other-friends': 'Other Friends',
+    'the-boys': 'Other Friends',
     'family-collection': 'Family Collection',
-    'football-collection': 'The Football Collection',
+    'football-collection': 'Memories & Hall of Fame',
     memories: 'Memories & Hall of Fame',
     'special-episodes': 'Special Episodes',
+    'grand-finale': 'Grand Finale',
   };
-  const episodeListHeading = sectionTitleMap[item.section] || 'Rutvik Originals';
+  const episodeListHeading = sectionTitleMap[item.section] || 'The People Behind The Legend';
 
   return (
     <div

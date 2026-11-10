@@ -1,5 +1,5 @@
 /**
- * RUTHVIK+ Video Catalog & Collections Configuration
+ * RUTVIK+ Video Catalog & Collections Configuration
  *
  * HOW TO ADD A NEW BIRTHDAY VIDEO (No UI code changes required):
  * 1. Place the MP4 file in `public/videos/` (e.g., `public/videos/rohan-wish.mp4`).
@@ -10,8 +10,8 @@
  *      episodeNumber: 'EP. 05',
  *      title: 'Birthday Wish Title',
  *      personName: 'Sender Name',          // (or `senderName`)
- *      collection: 'The Boys',             // 'The Boys' | 'Family Collection' | 'College Friends' | 'Long Distance Wishes' | 'Special Birthday Messages'
- *      section: 'the-boys',                // 'rutvik-originals' | 'the-boys' | 'family-collection' | 'football-collection' | 'memories' | 'special-episodes'
+ *      collection: 'Other Friends',        // 'The People Behind The Legend' | 'Other Friends' | 'Family Collection' | 'College Friends' | 'Long Distance Wishes' | 'Special Birthday Messages'
+ *      section: 'other-friends',           // 'people-behind-the-legend' | 'other-friends' | 'family-collection' | 'memories' | 'special-episodes' | 'grand-finale'
  *      duration: '02:30',
  *      durationSeconds: 150,
  *      matchScore: '100% Match',
@@ -37,7 +37,7 @@ export const HERO_FEATURED_CONTENT = {
   matchScore: '99% Match',
   year: '2026',
   maturityRating: 'TV-MA',
-  duration: 'Season 1 • 6 Episodes',
+  duration: 'Season 1 • 8 Core Episodes',
   quality: '4K Ultra HD',
   collection: 'Rutvik Originals',
   videoUrl: '/assets/intro/Intro.mp4',
@@ -50,14 +50,14 @@ export const HERO_FEATURED_CONTENT = {
   isSamplePreview: true, // Stadium intro highlight preview (not a combined friend wish video)
   description:
     'From late-night football debates and unforgettable road trips to messages across time zones — experience the ultimate birthday anthology celebrating Rutvik. Every episode brings together the people who made the journey unforgettable.',
-  cast: ['The OG Gang', 'Family', 'College Crew', 'Football Squad'],
+  cast: ['The People Behind The Legend', 'Other Friends', 'Family', 'Football Squad'],
   genres: ['Birthday Anthology', 'Brotherhood', 'Sports Drama', 'Comedy'],
 };
 
 export const EPISODE_COLLECTIONS = [
   { id: 'all', label: 'All Collections' },
   { id: 'The People Behind The Legend', label: 'The People Behind The Legend' },
-  { id: 'The Boys', label: 'The Boys' },
+  { id: 'Other Friends', label: 'Other Friends' },
   { id: 'Family Collection', label: 'Family Collection' },
   { id: 'College Friends', label: 'College Friends' },
   { id: 'Long Distance Wishes', label: 'Long Distance Wishes' },
@@ -65,14 +65,14 @@ export const EPISODE_COLLECTIONS = [
 ];
 
 export const ALL_VIDEOS = [
-  // --- RUTVIK ORIGINALS (Core 6 Birthday Episodes) ---
+  // --- OTHER FRIENDS & SPECIAL WISHES ---
   {
     id: 'orig-ep1',
     episodeNumber: 'EP. 01',
     title: 'The OG Gang',
     personName: 'The Core Squad',
-    collection: 'The Boys',
-    section: 'rutvik-originals',
+    collection: 'Other Friends',
+    section: 'other-friends',
     duration: '05:42',
     durationSeconds: 342,
     matchScore: '99% Match',
@@ -94,7 +94,7 @@ export const ALL_VIDEOS = [
     title: 'Messages From Across The World',
     personName: 'Global Friends & Crew',
     collection: 'Long Distance Wishes',
-    section: 'rutvik-originals',
+    section: 'memories',
     duration: '07:18',
     durationSeconds: 438,
     matchScore: '98% Match',
@@ -116,7 +116,7 @@ export const ALL_VIDEOS = [
     title: 'Emotional Damage',
     personName: 'Close Circle',
     collection: 'Special Birthday Messages',
-    section: 'rutvik-originals',
+    section: 'special-episodes',
     duration: '04:55',
     durationSeconds: 295,
     matchScore: '97% Match',
@@ -137,8 +137,8 @@ export const ALL_VIDEOS = [
     episodeNumber: 'EP. 04',
     title: 'The Roast Session',
     personName: 'Hostel & College Crew',
-    collection: 'College Friends',
-    section: 'rutvik-originals',
+    collection: 'Other Friends',
+    section: 'other-friends',
     duration: '06:30',
     durationSeconds: 390,
     matchScore: '100% Match',
@@ -160,7 +160,7 @@ export const ALL_VIDEOS = [
     title: 'From India With Love',
     personName: 'Family & Home Team',
     collection: 'Family Collection',
-    section: 'rutvik-originals',
+    section: 'family-collection',
     duration: '08:10',
     durationSeconds: 490,
     matchScore: '99% Match',
@@ -182,13 +182,13 @@ export const ALL_VIDEOS = [
     title: 'The Birthday Special',
     personName: 'Everyone Together',
     collection: 'Special Birthday Messages',
-    section: 'rutvik-originals',
+    section: 'special-episodes',
     duration: '09:45',
     durationSeconds: 585,
     matchScore: '100% Match',
     year: '2026',
     maturityRating: 'ALL',
-    tag: 'FINALE',
+    tag: 'SPECIAL',
     accentColor: '#E50914',
     posterTheme: 'gold',
     thumbnail: null,
@@ -199,14 +199,14 @@ export const ALL_VIDEOS = [
       'The grand birthday centerpiece combining a synchronized toast, final messages, and an unforgettable group send-off.',
   },
 
-  // --- THE BOYS ---
+  // --- OTHER FRIENDS ---
   {
     id: 'boys-1',
-    episodeNumber: 'EP. 01',
+    episodeNumber: 'FRD. 01',
     title: 'Late Night Pitch Debates',
     personName: 'Football & Chai Gang',
-    collection: 'The Boys',
-    section: 'the-boys',
+    collection: 'Other Friends',
+    section: 'other-friends',
     duration: '03:20',
     durationSeconds: 200,
     matchScore: '96% Match',
@@ -223,11 +223,11 @@ export const ALL_VIDEOS = [
   },
   {
     id: 'boys-2',
-    episodeNumber: 'EP. 02',
+    episodeNumber: 'FRD. 02',
     title: 'The Goa Plan That Survived',
     personName: 'Roadtrip Crew',
-    collection: 'The Boys',
-    section: 'the-boys',
+    collection: 'Other Friends',
+    section: 'other-friends',
     duration: '04:10',
     durationSeconds: 250,
     matchScore: '98% Match',
@@ -244,11 +244,11 @@ export const ALL_VIDEOS = [
   },
   {
     id: 'boys-3',
-    episodeNumber: 'EP. 03',
+    episodeNumber: 'FRD. 03',
     title: 'Midnight Biryani Protocol',
     personName: 'Hostel Block B',
     collection: 'College Friends',
-    section: 'the-boys',
+    section: 'other-friends',
     duration: '02:50',
     durationSeconds: 170,
     matchScore: '95% Match',
@@ -265,11 +265,11 @@ export const ALL_VIDEOS = [
   },
   {
     id: 'boys-4',
-    episodeNumber: 'EP. 04',
+    episodeNumber: 'FRD. 04',
     title: 'Wingman Chronicles',
     personName: 'Day-One Bros',
-    collection: 'The Boys',
-    section: 'the-boys',
+    collection: 'Other Friends',
+    section: 'other-friends',
     duration: '03:45',
     durationSeconds: 225,
     matchScore: '97% Match',
@@ -554,9 +554,9 @@ export const ALL_VIDEOS = [
     title: 'Combined Birthday Tribute',
     personName: 'Friends & Family United',
     collection: 'Special Birthday Messages',
-    section: 'special-episodes',
-    duration: '12:00',
-    durationSeconds: 720,
+    section: 'grand-finale',
+    duration: '--:--',
+    durationSeconds: 0,
     matchScore: '100% Match',
     year: '2026',
     maturityRating: 'ALL',
@@ -564,8 +564,11 @@ export const ALL_VIDEOS = [
     posterTheme: 'gold',
     thumbnail: '/assets/intro/football.png',
     videoUrl: '/videos/grand-finale-tribute.mp4',
-    sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
+    sampleVideoUrl: null,
+    disableSampleFallback: true,
     isPlaceholder: true,
+    status: 'awaiting-upload',
+    placeholderBadge: 'AWAITING UPLOAD',
     description:
       'The combined full-length birthday finale featuring every friend and family member together on one screen.',
   },
@@ -775,57 +778,6 @@ export const ALL_VIDEOS = [
 
 export const SECTION_ROWS = [
   {
-    id: 'rutvik-originals',
-    title: 'RUTVIK ORIGINALS',
-    subtitle: 'Signature birthday episodes crafted by the people closest to you',
-    filter: (video) => video.section === 'rutvik-originals',
-  },
-  {
-    id: 'the-boys',
-    title: 'THE BOYS',
-    subtitle: 'Day-one brotherhood, late-night chaos, and unfiltered wishes',
-    filter: (video) =>
-      (video.section === 'the-boys' ||
-        (video.collection || video.category) === 'The Boys') &&
-      video.section !== 'family-collection' &&
-      (video.collection || video.category) !== 'Family Collection',
-  },
-  {
-    id: 'family-collection',
-    title: 'FAMILY COLLECTION',
-    subtitle: 'Heartfelt messages and blessings straight from home',
-    filter: (video) =>
-      (video.section === 'family-collection' ||
-        (video.collection || video.category) === 'Family Collection') &&
-      video.section !== 'the-boys' &&
-      (video.collection || video.category) !== 'The Boys',
-  },
-  {
-    id: 'football-collection',
-    title: 'THE FOOTBALL COLLECTION',
-    subtitle: 'Matchday legacy, pitch vision, and champion highlights',
-    filter: (video) => video.section === 'football-collection',
-  },
-  {
-    id: 'memories',
-    title: 'MEMORIES & HALL OF FAME',
-    subtitle: 'College classics, unforgettable trips, and timeless milestones',
-    filter: (video) =>
-      video.section === 'memories' ||
-      (video.collection || video.category) === 'College Friends' ||
-      (video.collection || video.category) === 'Long Distance Wishes',
-  },
-  {
-    id: 'special-episodes',
-    title: 'SPECIAL EPISODES',
-    subtitle: 'Trailers, bonus outtakes, and the grand birthday tribute',
-    filter: (video) =>
-      video.section === 'special-episodes' ||
-      ((video.collection || video.category) === 'Special Birthday Messages' &&
-        video.section !== 'rutvik-originals' &&
-        video.section !== 'football-collection'),
-  },
-  {
     id: 'people-behind-the-legend',
     title: 'THE PEOPLE BEHIND THE LEGEND',
     subtitle: 'Eight individual birthday episodes from the inner circle',
@@ -833,9 +785,60 @@ export const SECTION_ROWS = [
       video.section === 'people-behind-the-legend' ||
       (video.collection || video.category) === 'The People Behind The Legend',
   },
+  {
+    id: 'other-friends',
+    title: 'OTHER FRIENDS',
+    subtitle: 'More wishes. More memories. More madness.',
+    filter: (video) =>
+      (video.section === 'other-friends' ||
+        video.section === 'the-boys' ||
+        (video.collection || video.category) === 'Other Friends' ||
+        (video.collection || video.category) === 'The Boys') &&
+      video.section !== 'people-behind-the-legend' &&
+      (video.collection || video.category) !== 'The People Behind The Legend' &&
+      video.section !== 'family-collection' &&
+      (video.collection || video.category) !== 'Family Collection' &&
+      video.section !== 'football-collection',
+  },
+  {
+    id: 'family-collection',
+    title: 'FAMILY COLLECTION',
+    subtitle: 'A little extra love from home.',
+    filter: (video) =>
+      (video.section === 'family-collection' ||
+        (video.collection || video.category) === 'Family Collection') &&
+      video.section !== 'people-behind-the-legend' &&
+      (video.collection || video.category) !== 'The People Behind The Legend' &&
+      video.section !== 'other-friends' &&
+      video.section !== 'the-boys' &&
+      (video.collection || video.category) !== 'Other Friends' &&
+      (video.collection || video.category) !== 'The Boys',
+  },
+  {
+    id: 'memories',
+    title: 'MEMORIES & HALL OF FAME',
+    subtitle: 'College classics, unforgettable trips, football highlights, and timeless milestones',
+    filter: (video) =>
+      video.section === 'memories' ||
+      video.section === 'football-collection' ||
+      (video.collection || video.category) === 'Long Distance Wishes' ||
+      ((video.collection || video.category) === 'College Friends' &&
+        video.section !== 'other-friends'),
+  },
+  {
+    id: 'special-episodes',
+    title: 'SPECIAL EPISODES',
+    subtitle: 'The official birthday trailer, behind-the-scenes outtakes, and bonus tributes',
+    filter: (video) =>
+      video.section === 'special-episodes' ||
+      ((video.collection || video.category) === 'Special Birthday Messages' &&
+        video.section !== 'grand-finale' &&
+        video.section !== 'football-collection' &&
+        video.section !== 'people-behind-the-legend'),
+  },
 ];
 
-export const CONTINUE_WATCHING_STORAGE_KEY = 'ruthvik_plus_continue_watching_v1';
+export const CONTINUE_WATCHING_STORAGE_KEY = 'rutvik_plus_continue_watching_v1';
 
 /**
  * Retrieves saved watch history for a single video by ID.

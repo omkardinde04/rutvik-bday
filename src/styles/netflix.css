@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 /* ==========================================================================
-   RUTHVIK+ NETFLIX-INSPIRED STREAMING EXPERIENCE STYLES
-   Scoped cleanly under .ruthvik-netflix-root to protect existing stadium styles
+   RUTVIK+ NETFLIX-INSPIRED STREAMING EXPERIENCE STYLES
+   Scoped cleanly under .rutvik-netflix-root to protect existing stadium styles
    ========================================================================== */
 
-.ruthvik-netflix-root {
+.rutvik-netflix-root {
   background-color: #141414;
   color: #ffffff;
   min-height: 100vh;

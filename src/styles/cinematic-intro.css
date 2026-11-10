@@ -1,0 +1,528 @@
+/* ==========================================================================
+   RUTVIK+ CINEMATIC OPENING, REVEAL & LOADING ANIMATION STYLES
+   ========================================================================== */
+
+.ci-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  background-color: #000000;
+  color: #ffffff;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- 3-VIDEO SEQUENCE PLAYER ---------- */
+.ci-video-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ci-video-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.ci-video-layer.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.ci-video-el {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000000;
+}
+
+.ci-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.72) 0%, transparent 18%, transparent 80%, rgba(0, 0, 0, 0.78) 100%);
+}
+
+/* Top HUD Bar */
+.ci-top-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 1.25rem 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ci-brand-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.ci-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ci-mini-logo {
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #E50914;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.ci-mini-logo span {
+  color: #ffffff;
+}
+
+.ci-act-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.ci-segments {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 210px;
+}
+
+.ci-segment-track {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.ci-segment-fill {
+  height: 100%;
+  background: #E50914;
+  transition: width 0.15s linear;
+}
+
+.ci-controls-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.ci-hud-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.ci-hud-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: #ffffff;
+}
+
+.ci-hud-btn--skip {
+  background: rgba(229, 9, 20, 0.16);
+  border-color: rgba(229, 9, 20, 0.55);
+}
+
+.ci-hud-btn--skip:hover {
+  background: #E50914;
+  border-color: #E50914;
+}
+
+/* Autoplay Permission Overlay */
+.ci-autoplay-gate {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: radial-gradient(circle at center, rgba(229, 9, 20, 0.16) 0%, rgba(0, 0, 0, 0.9) 70%);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.ci-gate-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  color: #E50914;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.ci-gate-title {
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin-bottom: 0.6rem;
+}
+
+.ci-gate-sub {
+  color: #d4d4d4;
+  font-size: 0.96rem;
+  max-width: 440px;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.ci-gate-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.95rem 2.1rem;
+  border-radius: 4px;
+  background: #E50914;
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  box-shadow: 0 12px 36px rgba(229, 9, 20, 0.5);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.ci-gate-primary:hover {
+  background: #f40612;
+  transform: scale(1.03);
+}
+
+.ci-gate-secondary {
+  margin-top: 1rem;
+  background: transparent;
+  border: none;
+  color: #a3a3a3;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ci-gate-secondary:hover {
+  color: #ffffff;
+}
+
+/* ---------- RUTVIK+ REVEAL SCREEN ---------- */
+.ci-reveal-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 42%, rgba(229, 9, 20, 0.2) 0%, #070707 58%, #000000 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  animation: ciRevealFadeIn 0.9s ease-out forwards;
+}
+
+@keyframes ciRevealFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ci-reveal-glow-ring {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.24) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  animation: ciPulseGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes ciPulseGlow {
+  from {
+    transform: scale(0.95);
+    opacity: 0.65;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.ci-reveal-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  color: #a3a3a3;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+  animation: ciSlideUpFade 0.8s ease-out 0.15s both;
+}
+
+.ci-reveal-logo {
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  font-size: clamp(4.2rem, 11vw, 8.5rem);
+  font-weight: 900;
+  color: #E50914;
+  letter-spacing: 0.06em;
+  line-height: 0.9;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 12px 48px rgba(229, 9, 20, 0.55);
+  animation: ciLogoEntrance 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.ci-reveal-logo span {
+  color: #ffffff;
+}
+
+@keyframes ciLogoEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.84);
+    letter-spacing: 0.18em;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    letter-spacing: 0.06em;
+  }
+}
+
+.ci-reveal-tagline {
+  font-size: clamp(0.92rem, 1.8vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: #f5f5f5;
+  text-transform: uppercase;
+  margin-top: 1.15rem;
+  margin-bottom: 2.75rem;
+  position: relative;
+  z-index: 2;
+  animation: ciSlideUpFade 0.9s ease-out 0.45s both;
+}
+
+@keyframes ciSlideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ci-enter-btn {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.05rem 2.6rem;
+  border-radius: 4px;
+  background: #E50914;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 14px 40px rgba(229, 9, 20, 0.5);
+  transition: transform 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease;
+  animation: ciSlideUpFade 0.9s ease-out 0.7s both;
+}
+
+.ci-enter-btn:hover {
+  background: #f40612;
+  transform: scale(1.04);
+  box-shadow: 0 18px 50px rgba(229, 9, 20, 0.7);
+}
+
+.ci-replay-link {
+  position: relative;
+  z-index: 2;
+  margin-top: 1.5rem;
+  background: transparent;
+  border: none;
+  color: #8c8c8c;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: color 0.2s ease;
+  animation: ciSlideUpFade 0.9s ease-out 0.85s both;
+}
+
+.ci-replay-link:hover {
+  color: #ffffff;
+}
+
+/* ---------- CUSTOM STREAMING LOADING ANIMATION ---------- */
+.ci-loading-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #050505;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 0.45s ease;
+}
+
+.ci-loading-stage.fading-out {
+  opacity: 0;
+}
+
+.ci-loading-beam {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(229, 9, 20, 0.85) 50%, transparent 100%);
+  transform: scaleX(0);
+  animation: ciBeamSweep 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ciBeamSweep {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  45% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1.3);
+    opacity: 0;
+  }
+}
+
+.ci-loading-wordmark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  font-size: clamp(3.8rem, 10vw, 7.2rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #E50914;
+  text-shadow: 0 0 36px rgba(229, 9, 20, 0.65);
+  animation: ciWordmarkScale 2.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.ci-loading-plus {
+  color: #ffffff;
+  display: inline-block;
+  margin-left: 2px;
+  animation: ciPlusPop 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s both;
+}
+
+@keyframes ciWordmarkScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+    letter-spacing: 0.28em;
+    filter: blur(8px);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.03);
+    letter-spacing: 0.08em;
+    filter: blur(0px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes ciPlusPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-45deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.ci-loading-sub {
+  margin-top: 1.15rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  animation: ciSlideUpFade 0.8s ease-out 0.4s both;
+}
+
+/* ---------- RESPONSIVE ADJUSTMENTS ---------- */
+@media (max-width: 768px) {
+  .ci-top-hud {
+    padding: 0.9rem 4%;
+  }
+  .ci-segments {
+    width: 120px;
+  }
+  .ci-hud-btn span {
+    display: none;
+  }
+  .ci-hud-btn--skip span {
+    display: inline;
+  }
+  .ci-act-label {
+    font-size: 0.66rem;
+  }
+}

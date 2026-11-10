@@ -71,7 +71,7 @@ export default function EndCredits() {
           >
             <div style={{ marginBottom: '2.5rem' }}>
               <div style={{ fontFamily: 'Bebas Neue, Impact, sans-serif', fontSize: '2.4rem', color: '#E50914', letterSpacing: '0.08em' }}>
-                RUTHVIK+
+                RUTVIK+
               </div>
               <div style={{ fontSize: '0.82rem', color: '#9ca3af', letterSpacing: '0.2em' }}>
                 A BIRTHDAY ORIGINAL PRODUCTION
