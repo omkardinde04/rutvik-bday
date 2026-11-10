@@ -218,7 +218,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/friend-football.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for friend wish video. Three hours of arguing over tactical formations instead of sleeping.',
+      'Three hours of arguing over tactical formations instead of sleeping.',
   },
   {
     id: 'boys-2',
@@ -239,7 +239,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/Intro.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for friend wish video. Against all group-chat odds, this crew actually made memories happen.',
+      'Against all group-chat odds, this crew actually made memories happen.',
   },
   {
     id: 'boys-3',
@@ -260,7 +260,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for friend wish video. No deadline or morning lecture could stop the 1 AM food mission.',
+      'No deadline or morning lecture could stop the 1 AM food mission.',
   },
   {
     id: 'boys-4',
@@ -281,7 +281,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/messi-feature.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for friend wish video. Highlight reel of unmatched loyalty, questionable advice, and pure laughs.',
+      'Highlight reel of unmatched loyalty, questionable advice, and pure laughs.',
   },
 
   // --- FAMILY COLLECTION ---
@@ -304,7 +304,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for parents’ birthday message. Blessings, pride, and timeless love from the ones who cheered first.',
+      'Blessings, pride, and timeless love from the ones who cheered first.',
   },
   {
     id: 'family-2',
@@ -325,7 +325,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/Intro.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for siblings’ video. Expect 50% embarrassing childhood photos and 50% genuine appreciation.',
+      'Expect 50% embarrassing childhood photos and 50% genuine appreciation.',
   },
   {
     id: 'family-3',
@@ -346,7 +346,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for extended family wishes. Warm birthday greetings gathered from every branch of the family tree.',
+      'Warm birthday greetings gathered from every branch of the family tree.',
   },
 
   // --- THE FOOTBALL COLLECTION (Existing Valid MP4 Clips from Stadium Edition) ---
@@ -459,7 +459,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/Intro.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for memory reel. Where awkward introductions turned into lifelong friendship.',
+      'Where awkward introductions turned into lifelong friendship.',
   },
   {
     id: 'mem-2',
@@ -480,7 +480,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for graduation reel. Celebrating the wins, late-night submissions, and unforgettable milestones.',
+      'Celebrating the wins, late-night submissions, and unforgettable milestones.',
   },
   {
     id: 'mem-3',
@@ -501,7 +501,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/messi-feature.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for long-distance video calls and candid throwback highlights across borders.',
+      'Long-distance video calls and candid throwback highlights across borders.',
   },
 
   // --- SPECIAL EPISODES & BIRTHDAY TRAILER ---
@@ -524,7 +524,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/Intro.mp4',
     isPlaceholder: true,
     description:
-      'The official teaser welcoming Rutvik to his dedicated birthday streaming universe. Drop final trailer MP4 to replace placeholder.',
+      'The official teaser welcoming Rutvik to his dedicated birthday streaming universe.',
   },
   {
     id: 'spec-1',
@@ -545,7 +545,7 @@ export const ALL_VIDEOS = [
     sampleVideoUrl: '/assets/intro/friend-football.mp4',
     isPlaceholder: true,
     description:
-      'Placeholder ready for outtakes. All the forgotten lines, accidental camera drops, and hilarious takes we kept.',
+      'All the forgotten lines, accidental camera drops, and hilarious takes we kept.',
   },
   {
     id: 'spec-finale',
@@ -582,16 +582,20 @@ export const SECTION_ROWS = [
     title: 'THE BOYS',
     subtitle: 'Day-one brotherhood, late-night chaos, and unfiltered wishes',
     filter: (video) =>
-      video.section === 'the-boys' ||
-      (video.collection || video.category) === 'The Boys',
+      (video.section === 'the-boys' ||
+        (video.collection || video.category) === 'The Boys') &&
+      video.section !== 'family-collection' &&
+      (video.collection || video.category) !== 'Family Collection',
   },
   {
     id: 'family-collection',
     title: 'FAMILY COLLECTION',
     subtitle: 'Heartfelt messages and blessings straight from home',
     filter: (video) =>
-      video.section === 'family-collection' ||
-      (video.collection || video.category) === 'Family Collection',
+      (video.section === 'family-collection' ||
+        (video.collection || video.category) === 'Family Collection') &&
+      video.section !== 'the-boys' &&
+      (video.collection || video.category) !== 'The Boys',
   },
   {
     id: 'football-collection',
