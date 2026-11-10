@@ -281,12 +281,12 @@ export default function IntroVideoPlayer({
 
       {/* LAYER 2: Video 3 — Messi Trophy Video Inside Opened Curtain Stage */}
       <div className={`ci-video-layer ${isVideoPhase && activeIndex === 2 ? 'active' : ''}`} style={{ zIndex: 3 }}>
-        <div className="ci-curtain-stage-frame">
+        <div className="ci-curtain-stage-frame messi-stage">
           <video
             ref={(el) => {
               videoRefs.current[2] = el;
             }}
-            className="ci-video-el"
+            className="ci-video-el ci-video-el--messi"
             src={INTRO_SEQUENCE[2].src}
             preload="auto"
             playsInline

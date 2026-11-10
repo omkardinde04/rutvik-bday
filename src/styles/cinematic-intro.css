@@ -61,20 +61,36 @@
 }
 
 /* Stage Frame Centered Inside Opened Curtains (for Messi Trophy Video) */
-.ci-curtain-stage-frame {
-  width: min(80vw, 940px);
-  height: min(72vh, 580px);
-  background: #000000;
+.ci-curtain-stage-frame,
+.messi-stage {
+  position: relative;
+  width: min(84vw, 1060px, calc(78vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  min-width: 0;
+  min-height: 0;
+  background: transparent;
   border-radius: 6px;
   overflow: hidden;
+  border: 0;
   box-shadow:
     0 30px 100px rgba(0, 0, 0, 0.92),
     0 0 60px rgba(229, 9, 20, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   animation: ciStageFrameIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.messi-stage video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover;
+  object-position: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 @keyframes ciStageFrameIn {
@@ -573,8 +589,9 @@
   .ci-act-label {
     font-size: 0.64rem;
   }
-  .ci-curtain-stage-frame {
-    width: 92vw;
-    height: 64vh;
+  .ci-curtain-stage-frame,
+  .messi-stage {
+    width: min(94vw, calc(74vh * 16 / 9));
+    aspect-ratio: 16 / 9;
   }
 }
