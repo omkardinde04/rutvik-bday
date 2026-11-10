@@ -4,9 +4,12 @@ import Navbar from './components/Navbar';
 import HeroSection from './sections/HeroSection';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import ChroniclesExperience from './components/ChroniclesExperience';
+import RuthvikPlusExperience from './components/netflix/RuthvikPlusExperience';
+import { Tv } from 'lucide-react';
 
 export default function App() {
   const [hasEntered, setHasEntered] = useState(false);
+  const [experienceMode, setExperienceMode] = useState('netflix'); // 'netflix' | 'stadium'
 
   // Initialize Lenis smooth scroll synchronized with GSAP ScrollTrigger
   useSmoothScroll();
@@ -15,8 +18,56 @@ export default function App() {
     setHasEntered(true);
   };
 
+  if (experienceMode === 'netflix') {
+    return (
+      <RuthvikPlusExperience
+        onSwitchToStadium={() => {
+          setHasEntered(false);
+          setExperienceMode('stadium');
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }}
+      />
+    );
+  }
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: 'var(--color-pitch-dark)' }}>
+      {/* Floating Return to RUTHVIK+ Controller */}
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '1.5rem',
+          left: '1.5rem',
+          zIndex: 1100,
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setExperienceMode('netflix');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+          }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.65rem 1.2rem',
+            borderRadius: '9999px',
+            background: 'rgba(20, 20, 20, 0.92)',
+            border: '1px solid rgba(229, 9, 20, 0.6)',
+            color: '#ffffff',
+            fontSize: '0.82rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.65)',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <Tv size={15} color="#E50914" />
+          <span>Return to RUTHVIK+</span>
+        </button>
+      </div>
+
       {/* Stadium ambient light & pitch lines */}
       <div className="stadium-atmosphere" />
       <div className="pitch-lines-overlay" />

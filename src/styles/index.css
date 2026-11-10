@@ -19,6 +19,15 @@
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Impact', 'Arial Black', -apple-system, sans-serif;
+
+  /* RUTHVIK+ Netflix Streaming Tokens */
+  --color-netflix-black: #141414;
+  --color-netflix-charcoal: #181818;
+  --color-netflix-card: #232323;
+  --color-netflix-red: #E50914;
+  --color-netflix-red-hover: #f40612;
+  --color-netflix-gray: #808080;
+  --color-netflix-white: #ffffff;
 }
 
 * {
