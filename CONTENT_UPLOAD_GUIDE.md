@@ -4,7 +4,7 @@ This guide explains how to upload birthday MP4 videos and custom thumbnails from
 
 ---
 
-## 1. Catalog Classification Overview (24 Existing Entries)
+## 1. Catalog Classification Overview (32 Existing Entries)
 
 ### A. Existing Stadium Sample Clips (`isPlaceholder: false`, `isSamplePreview: true`)
 These 5 entries reference pre-existing Stadium Edition MP4s under `public/assets/intro/` and display a `STADIUM SAMPLE` / `SAMPLE STADIUM CLIP` notice so they are never confused with uploaded birthday wishes:
@@ -18,10 +18,18 @@ These 5 entries reference pre-existing Stadium Edition MP4s under `public/assets
 | `football-4` | Director’s Turf Anthem | Football Collection | `/assets/intro/Intro.mp4` | `/assets/intro/football.png` |
 
 ### B. Birthday Wish Placeholder Slots (`isPlaceholder: true`, `isSamplePreview: false`)
-These 19 slots show `COMING SOON` / `AWAITING VIDEO` labels until actual MP4 files are uploaded and marked `isPlaceholder: false`:
+These 27 slots show `COMING SOON` / `AWAITING UPLOAD` / `AWAITING VIDEO` labels until actual MP4 files are uploaded and marked `isPlaceholder: false`:
 
 | ID | Episode Title | Section | Collection | Expected Video Filename (`public/videos/...`) | Suggested Thumbnail (`public/thumbnails/...`) |
 |---|---|---|---|---|---|
+| `legend-s01e01` | Gargi: The Plot Twist | `people-behind-the-legend` | `The People Behind The Legend` | `/videos/legend-s01e01-gargi.mp4` | `/thumbnails/legend-s01e01-gargi.jpg` |
+| `legend-s01e02` | Manasi: The Unfiltered Truth | `people-behind-the-legend` | `The People Behind The Legend` | `/videos/legend-s01e02-manasi.mp4` | `/thumbnails/legend-s01e02-manasi.jpg` |
+| `legend-s01e03` | Ria: The Unexpected Story | `people-behind-the-legend` | `The People Behind The Legend` | `/videos/legend-s01e03-ria.mp4` | `/thumbnails/legend-s01e03-ria.jpg` |
+| `legend-s01e04` | Aarish: The Wild Card | `people-behind-the-legend` | `The People Behind The Legend` | `/videos/legend-s01e04-aarish.mp4` | `/thumbnails/legend-s01e04-aarish.jpg` |
+| `legend-s01e05` | Durve: The OG Chronicles | `people-behind-the-legend` | `The People Behind The Legend` | `/videos/legend-s01e05-durve.mp4` | `/thumbnails/legend-s01e05-durve.jpg` |
+| `legend-s01e06` | Omkar: No Filter | `people-behind-the-legend` | `The People Behind The Legend` | `/videos/legend-s01e06-omkar.mp4` | `/thumbnails/legend-s01e06-omkar.jpg` |
+| `legend-s01e07` | Aditya: The Final Warning | `people-behind-the-legend` | `The People Behind The Legend` | `/videos/legend-s01e07-aditya.mp4` | `/thumbnails/legend-s01e07-aditya.jpg` |
+| `legend-s01e08` | Kasar: The Closing Chapter | `people-behind-the-legend` | `The People Behind The Legend` | `/videos/legend-s01e08-kasar.mp4` | `/thumbnails/legend-s01e08-kasar.jpg` |
 | `orig-ep1` | The OG Gang | `rutvik-originals` | `The Boys` | `/videos/ep1-og-gang.mp4` | `/thumbnails/ep1-og-gang.jpg` |
 | `orig-ep2` | Messages From Across The World | `rutvik-originals` | `Long Distance Wishes` | `/videos/ep2-worldwide.mp4` | `/thumbnails/ep2-worldwide.jpg` |
 | `orig-ep3` | Emotional Damage | `rutvik-originals` | `Special Birthday Messages` | `/videos/ep3-emotional-damage.mp4` | `/thumbnails/ep3-emotional-damage.jpg` |
@@ -97,3 +105,4 @@ Run locally to verify zero console errors or broken links:
 npm run dev
 npm run build
 ```
+

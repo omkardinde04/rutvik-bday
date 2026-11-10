@@ -22,6 +22,7 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
       : ALL_VIDEOS.filter((v) => v.section === 'rutvik-originals');
 
   const sectionTitleMap = {
+    'people-behind-the-legend': 'The People Behind The Legend',
     'the-boys': 'The Boys Collection',
     'family-collection': 'Family Collection',
     'football-collection': 'The Football Collection',

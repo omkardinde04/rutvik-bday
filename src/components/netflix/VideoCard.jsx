@@ -7,7 +7,7 @@ export default function VideoCard({ video, onPlay, onMoreInfo, isContinueWatchin
 
   const themeClass = `nf-poster-art--${video.posterTheme || 'crimson'}`;
   const sender = video.senderName || video.personName || 'Friends & Family';
-  const isAwaitingUpload = Boolean(video.isPlaceholder);
+  const isAwaitingUpload = Boolean(video.isPlaceholder || video.status === 'awaiting-upload');
   const isSampleReel = Boolean(video.isSamplePreview);
 
   const handleCardClick = (e) => {
@@ -80,7 +80,7 @@ export default function VideoCard({ video, onPlay, onMoreInfo, isContinueWatchin
                     : undefined
                 }
               >
-                {isAwaitingUpload ? 'COMING SOON' : video.tag || 'SERIES'}
+                {isAwaitingUpload ? (video.placeholderBadge || 'COMING SOON') : video.tag || 'SERIES'}
               </span>
             </div>
 

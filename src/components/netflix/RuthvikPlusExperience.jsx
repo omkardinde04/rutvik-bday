@@ -198,6 +198,16 @@ export default function RuthvikPlusExperience({ onSwitchToStadium }) {
                   onMoreInfo={setMoreInfoItem}
                 />
 
+                {/* Section 2B: THE PEOPLE BEHIND THE LEGEND */}
+                <ContentCarousel
+                  id={SECTION_ROWS[6].id}
+                  title={SECTION_ROWS[6].title}
+                  subtitle={SECTION_ROWS[6].subtitle}
+                  videos={ALL_VIDEOS.filter(SECTION_ROWS[6].filter)}
+                  onPlay={handlePlayVideo}
+                  onMoreInfo={setMoreInfoItem}
+                />
+
                 {/* Section 3: THE BOYS */}
                 <ContentCarousel
                   id={SECTION_ROWS[1].id}

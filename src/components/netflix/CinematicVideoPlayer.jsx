@@ -42,8 +42,9 @@ export default function CinematicVideoPlayer({ video, onClose, onVideoEnded }) {
 
   // Initialize source
   useEffect(() => {
+    const isUnuploadedStrict = Boolean(video?.isPlaceholder && video?.disableSampleFallback);
     setActiveVideoSrc(video?.videoUrl || '');
-    setHasError(false);
+    setHasError(isUnuploadedStrict);
     setIsPreviewMode(false);
     lastSavedSecRef.current = -1;
   }, [video]);
@@ -206,10 +207,10 @@ export default function CinematicVideoPlayer({ video, onClose, onVideoEnded }) {
     setIsPlaying(false);
   };
 
-  // Fallback demo reel switch
+  // Fallback demo reel switch (only when sample fallback is permitted)
   const handlePlaySampleReel = () => {
-    const fallback = video.sampleVideoUrl || '/assets/intro/friend-football.mp4';
-    setActiveVideoSrc(fallback);
+    if (video?.disableSampleFallback || !video?.sampleVideoUrl) return;
+    setActiveVideoSrc(video.sampleVideoUrl);
     setHasError(false);
     setIsPreviewMode(true);
   };
@@ -302,15 +303,27 @@ export default function CinematicVideoPlayer({ video, onClose, onVideoEnded }) {
                 to showcase their personal message.
               </p>
 
-              <button
-                type="button"
-                className="nf-btn-play"
-                style={{ fontSize: '0.92rem', padding: '0.65rem 1.45rem' }}
-                onClick={handlePlaySampleReel}
-              >
-                <Sparkles size={16} color="#141414" />
-                <span>Play Sample Stadium Reel</span>
-              </button>
+              {!video?.disableSampleFallback && video?.sampleVideoUrl ? (
+                <button
+                  type="button"
+                  className="nf-btn-play"
+                  style={{ fontSize: '0.92rem', padding: '0.65rem 1.45rem' }}
+                  onClick={handlePlaySampleReel}
+                >
+                  <Sparkles size={16} color="#141414" />
+                  <span>Play Sample Stadium Reel</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="nf-btn-info"
+                  style={{ fontSize: '0.92rem', padding: '0.65rem 1.45rem' }}
+                  onClick={handleClosePlayer}
+                >
+                  <X size={16} />
+                  <span>Close Slot Preview</span>
+                </button>
+              )}
             </div>
           )}
 
