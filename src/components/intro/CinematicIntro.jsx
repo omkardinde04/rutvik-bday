@@ -5,6 +5,7 @@ import RutvikReveal from './RutvikReveal';
 import RutvikLoadingAnimation from './RutvikLoadingAnimation';
 
 export const INTRO_STEPS = {
+  WELCOME: 'WELCOME',
   VIDEO_1: 'INTRO_VIDEO_1',
   VIDEO_2: 'INTRO_VIDEO_2',
   VIDEO_3: 'INTRO_VIDEO_3',
@@ -21,9 +22,13 @@ const STEP_TO_VIDEO_INDEX = {
 
 export const INTRO_SKIPPED_STORAGE_KEY = 'rutvik_plus_intro_skipped';
 
-export default function CinematicIntro({ onFinishIntro }) {
-  const [step, setStep] = useState(INTRO_STEPS.VIDEO_1);
+export default function CinematicIntro({ onFinishIntro, initialStep = INTRO_STEPS.WELCOME }) {
+  const [step, setStep] = useState(initialStep);
   const [isMuted, setIsMuted] = useState(false);
+
+  const handleStartSequence = useCallback(() => {
+    setStep(INTRO_STEPS.VIDEO_1);
+  }, []);
 
   const handleVideoEnded = useCallback((videoIdx) => {
     if (videoIdx === 0) {
@@ -61,32 +66,29 @@ export default function CinematicIntro({ onFinishIntro }) {
     onFinishIntro?.();
   }, [onFinishIntro]);
 
-  const isVideoPhase =
-    step === INTRO_STEPS.VIDEO_1 ||
-    step === INTRO_STEPS.VIDEO_2 ||
-    step === INTRO_STEPS.VIDEO_3;
+  const activeIndex =
+    step in STEP_TO_VIDEO_INDEX ? STEP_TO_VIDEO_INDEX[step] : -1;
 
   return (
     <div className="ci-root" data-intro-step={step}>
-      {isVideoPhase && (
+      {step !== INTRO_STEPS.LOADING ? (
         <IntroVideoPlayer
-          activeIndex={STEP_TO_VIDEO_INDEX[step]}
+          step={step}
+          activeIndex={activeIndex}
           isMuted={isMuted}
           onToggleMute={setIsMuted}
+          onStart={handleStartSequence}
           onVideoEnded={handleVideoEnded}
           onSkip={handleSkip}
           onReplay={handleReplay}
+          revealOverlay={
+            <RutvikReveal
+              onEnter={handleEnterPlatform}
+              onReplay={handleReplay}
+            />
+          }
         />
-      )}
-
-      {step === INTRO_STEPS.REVEAL && (
-        <RutvikReveal
-          onEnter={handleEnterPlatform}
-          onReplay={handleReplay}
-        />
-      )}
-
-      {step === INTRO_STEPS.LOADING && (
+      ) : (
         <RutvikLoadingAnimation
           isMuted={isMuted}
           onComplete={handleLoadingComplete}

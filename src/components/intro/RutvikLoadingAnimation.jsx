@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 /**
- * Synthesizes an original cinematic startup chord swell using Web Audio API.
- * Completely independent original synthesis (no proprietary audio assets).
+ * Synthesizes an original cinematic startup sound using Web Audio API.
+ * Completely independent synthesis (no proprietary Netflix audio recording).
  */
 function playOriginalStartupSound() {
   try {
@@ -17,26 +17,26 @@ function playOriginalStartupSound() {
     const now = ctx.currentTime;
     const masterGain = ctx.createGain();
     masterGain.gain.setValueAtTime(0.001, now);
-    masterGain.gain.exponentialRampToValueAtTime(0.28, now + 0.35);
-    masterGain.gain.exponentialRampToValueAtTime(0.18, now + 1.25);
-    masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.25);
+    masterGain.gain.exponentialRampToValueAtTime(0.32, now + 0.35);
+    masterGain.gain.exponentialRampToValueAtTime(0.22, now + 1.35);
+    masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.55);
 
     const filter = ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(160, now);
-    filter.frequency.exponentialRampToValueAtTime(1800, now + 0.65);
-    filter.frequency.exponentialRampToValueAtTime(420, now + 2.2);
+    filter.frequency.setValueAtTime(140, now);
+    filter.frequency.exponentialRampToValueAtTime(2100, now + 0.7);
+    filter.frequency.exponentialRampToValueAtTime(380, now + 2.5);
 
     filter.connect(masterGain);
     masterGain.connect(ctx.destination);
 
-    // Original warm harmonic voicing (D2 sub, A2, E3, F#3, A3)
+    // Original deep sub impact + warm harmonic fifth/ninth swell
     const tones = [
-      { freq: 73.42, type: 'sine', gain: 0.45 },
-      { freq: 110.0, type: 'triangle', gain: 0.25 },
-      { freq: 164.81, type: 'sine', gain: 0.2 },
-      { freq: 220.0, type: 'triangle', gain: 0.14 },
-      { freq: 440.0, type: 'sine', gain: 0.08 },
+      { freq: 65.41, type: 'sine', gain: 0.48 },
+      { freq: 98.0, type: 'triangle', gain: 0.28 },
+      { freq: 146.83, type: 'sine', gain: 0.22 },
+      { freq: 196.0, type: 'triangle', gain: 0.15 },
+      { freq: 392.0, type: 'sine', gain: 0.08 },
     ];
 
     tones.forEach(({ freq, type, gain }) => {
@@ -48,7 +48,7 @@ function playOriginalStartupSound() {
       osc.connect(oscGain);
       oscGain.connect(filter);
       osc.start(now);
-      osc.stop(now + 2.3);
+      osc.stop(now + 2.6);
     });
 
     return ctx;
@@ -56,6 +56,8 @@ function playOriginalStartupSound() {
     return null;
   }
 }
+
+const RIBBON_STRIPES = Array.from({ length: 12 }, (_, idx) => idx);
 
 export default function RutvikLoadingAnimation({ isMuted = false, onComplete }) {
   const [fadingOut, setFadingOut] = useState(false);
@@ -68,8 +70,8 @@ export default function RutvikLoadingAnimation({ isMuted = false, onComplete }) 
       audioCtx = playOriginalStartupSound();
     }
 
-    const fadeDelay = prefersReducedMotion ? 350 : 1900;
-    const doneDelay = prefersReducedMotion ? 700 : 2350;
+    const fadeDelay = prefersReducedMotion ? 400 : 2150;
+    const doneDelay = prefersReducedMotion ? 750 : 2650;
 
     const fadeTimer = window.setTimeout(() => setFadingOut(true), fadeDelay);
     const doneTimer = window.setTimeout(() => {
@@ -92,15 +94,27 @@ export default function RutvikLoadingAnimation({ isMuted = false, onComplete }) 
       aria-live="polite"
       aria-label="Loading RUTVIK+"
     >
-      <div className="ci-loading-beam" aria-hidden="true" />
+      {/* Dramatic Red Ambient Lighting */}
+      <div className="ci-loading-ambient" aria-hidden="true" />
 
+      {/* Central Vertical Red Light Reveal */}
+      <div className="ci-vertical-light-blade" aria-hidden="true" />
+
+      {/* Animated Red Curtain / Spectral Ribbons */}
+      <div className="ci-ribbon-field" aria-hidden="true">
+        {RIBBON_STRIPES.map((i) => (
+          <div className="ci-ribbon-stripe" key={i} />
+        ))}
+      </div>
+
+      {/* Emerging RUTVIK+ Wordmark */}
       <div className="ci-loading-wordmark">
         <span>RUTVIK</span>
         <span className="ci-loading-plus">+</span>
       </div>
 
       <div className="ci-loading-sub">
-        LOADING YOUR UNIVERSE
+        PRIVATE STREAMING EDITION
       </div>
     </div>
   );

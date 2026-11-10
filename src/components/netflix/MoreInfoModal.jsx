@@ -14,7 +14,7 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
   if (!item) return null;
 
   const sender = item.senderName || item.personName || 'Friends & Family';
-  const categoryLabel = item.category || item.collection || 'Rutvik Originals';
+  const categoryLabel = item.category || item.collection || 'RUTVIK+ Original';
 
   const matchingEpisodes =
     item.section
@@ -23,13 +23,7 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
 
   const sectionTitleMap = {
     'people-behind-the-legend': 'The People Behind The Legend',
-    'other-friends': 'Other Friends',
-    'the-boys': 'Other Friends',
-    'family-collection': 'Family Collection',
-    'football-collection': 'Memories & Hall of Fame',
-    memories: 'Memories & Hall of Fame',
-    'special-episodes': 'Special Episodes',
-    'grand-finale': 'Grand Finale',
+    'message-from-home': 'A Message From Home',
   };
   const episodeListHeading = sectionTitleMap[item.section] || 'The People Behind The Legend';
 

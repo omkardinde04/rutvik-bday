@@ -1,579 +1,46 @@
 /**
- * RUTVIK+ Video Catalog & Collections Configuration
+ * RUTVIK+ Video Catalog Configuration
  *
- * HOW TO ADD A NEW BIRTHDAY VIDEO (No UI code changes required):
- * 1. Place the MP4 file in `public/videos/` (e.g., `public/videos/rohan-wish.mp4`).
- * 2. (Optional) Place a custom thumbnail in `public/thumbnails/` (e.g., `public/thumbnails/rohan-thumb.jpg`).
- * 3. Add a new object to `ALL_VIDEOS` below using a unique `id`:
- *    {
- *      id: 'unique-episode-id',
- *      episodeNumber: 'EP. 05',
- *      title: 'Birthday Wish Title',
- *      personName: 'Sender Name',          // (or `senderName`)
- *      collection: 'Other Friends',        // 'The People Behind The Legend' | 'Other Friends' | 'Family Collection' | 'College Friends' | 'Long Distance Wishes' | 'Special Birthday Messages'
- *      section: 'other-friends',           // 'people-behind-the-legend' | 'other-friends' | 'family-collection' | 'memories' | 'special-episodes' | 'grand-finale'
- *      duration: '02:30',
- *      durationSeconds: 150,
- *      matchScore: '100% Match',
- *      year: '2026',
- *      maturityRating: 'ALL',
- *      tag: 'BIRTHDAY WISH',
- *      posterTheme: 'crimson',             // Fallback poster style if thumbnail is null
- *      thumbnail: '/thumbnails/rohan-thumb.jpg', // Or `null` for studio poster graphic
- *      videoUrl: '/videos/rohan-wish.mp4',
- *      isPlaceholder: false,               // Set to `false` once the actual MP4 is uploaded
- *      description: 'Short description of the message or memory.',
- *    }
+ * Strictly contains the two personalized birthday collections (9 videos total):
+ * 1. FRIENDS_VIDEOS — "THE PEOPLE BEHIND THE LEGEND" (8 individual episodes: S01 E01 - S01 E08)
+ * 2. PARENTS_VIDEO  — "A MESSAGE FROM HOME" (1 dedicated parents' featured episode)
  *
- * External CDN/hosting URLs (Cloudinary, S3, Cloudflare Stream) are also supported for `videoUrl` & `thumbnail`.
+ * To activate an episode once the MP4 file arrives:
+ * 1. Place the MP4 inside `public/videos/` matching `videoUrl` (or set an external HTTPS MP4 URL).
+ * 2. (Optional) Place a custom thumbnail in `public/thumbnails/` and set `thumbnail: '/thumbnails/...'`.
+ * 3. Change `isPlaceholder: false`, remove `status: 'awaiting-upload'`, and update `duration`.
  */
 
 export const HERO_FEATURED_CONTENT = {
   id: 'hero-rutvik-universe',
   title: 'THE RUTVIK UNIVERSE',
-  subtitle: 'RUTVIK ORIGINALS',
+  subtitle: 'RUTVIK+ ORIGINAL',
   tagline: 'A collection of memories, laughter, and birthday wishes from the people who matter most.',
   subTagline: 'One legend. Countless memories. One special birthday.',
-  matchScore: '99% Match',
+  matchScore: '100% Match',
   year: '2026',
-  maturityRating: 'TV-MA',
-  duration: 'Season 1 • 8 Core Episodes',
+  maturityRating: 'ALL',
+  duration: '9 Birthday Features',
   quality: '4K Ultra HD',
-  collection: 'Rutvik Originals',
+  collection: 'The People Behind The Legend',
   videoUrl: '/assets/intro/Intro.mp4',
   fallbackVideoUrl: '/assets/intro/friend-football.mp4',
   heroImage: '/assets/intro/football.png',
   thumbnail: '/assets/intro/football.png',
   episodeNumber: 'FEATURE',
   posterTheme: 'crimson',
-  personName: 'All Friends & Family',
-  isSamplePreview: true, // Stadium intro highlight preview (not a combined friend wish video)
+  personName: 'Friends & Family',
+  isSamplePreview: true,
   description:
-    'From late-night football debates and unforgettable road trips to messages across time zones — experience the ultimate birthday anthology celebrating Rutvik. Every episode brings together the people who made the journey unforgettable.',
-  cast: ['The People Behind The Legend', 'Other Friends', 'Family', 'Football Squad'],
-  genres: ['Birthday Anthology', 'Brotherhood', 'Sports Drama', 'Comedy'],
+    'A private streaming collection created exclusively for Rutvik — featuring eight episodes from his closest friends and a special message from home.',
+  cast: ['Gargi', 'Manasi', 'Ria', 'Aarish', 'Durve', 'Omkar', 'Aditya', 'Kasar', 'Mom & Dad'],
+  genres: ['Birthday Tribute', 'Brotherhood', 'Family'],
 };
 
-export const EPISODE_COLLECTIONS = [
-  { id: 'all', label: 'All Collections' },
-  { id: 'The People Behind The Legend', label: 'The People Behind The Legend' },
-  { id: 'Other Friends', label: 'Other Friends' },
-  { id: 'Family Collection', label: 'Family Collection' },
-  { id: 'College Friends', label: 'College Friends' },
-  { id: 'Long Distance Wishes', label: 'Long Distance Wishes' },
-  { id: 'Special Birthday Messages', label: 'Special Birthday Messages' },
-];
-
-export const ALL_VIDEOS = [
-  // --- OTHER FRIENDS & SPECIAL WISHES ---
-  {
-    id: 'orig-ep1',
-    episodeNumber: 'EP. 01',
-    title: 'The OG Gang',
-    personName: 'The Core Squad',
-    collection: 'Other Friends',
-    section: 'other-friends',
-    duration: '05:42',
-    durationSeconds: 342,
-    matchScore: '99% Match',
-    year: '2026',
-    maturityRating: '18+',
-    tag: 'TOP 10',
-    accentColor: '#E50914',
-    posterTheme: 'crimson',
-    thumbnail: null,
-    videoUrl: '/videos/ep1-og-gang.mp4',
-    sampleVideoUrl: '/assets/intro/friend-football.mp4',
-    isPlaceholder: true,
-    description:
-      'Unfiltered birthday chaos, legendary inside jokes, and raw appreciation from the day-one brothers who started it all.',
-  },
-  {
-    id: 'orig-ep2',
-    episodeNumber: 'EP. 02',
-    title: 'Messages From Across The World',
-    personName: 'Global Friends & Crew',
-    collection: 'Long Distance Wishes',
-    section: 'memories',
-    duration: '07:18',
-    durationSeconds: 438,
-    matchScore: '98% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'NEW EPISODE',
-    accentColor: '#38bdf8',
-    posterTheme: 'midnight',
-    thumbnail: null,
-    videoUrl: '/videos/ep2-worldwide.mp4',
-    sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
-    isPlaceholder: true,
-    description:
-      'Different time zones, same brotherhood. Heartfelt video drops recorded across cities and continents for your special day.',
-  },
-  {
-    id: 'orig-ep3',
-    episodeNumber: 'EP. 03',
-    title: 'Emotional Damage',
-    personName: 'Close Circle',
-    collection: 'Special Birthday Messages',
-    section: 'special-episodes',
-    duration: '04:55',
-    durationSeconds: 295,
-    matchScore: '97% Match',
-    year: '2026',
-    maturityRating: '16+',
-    tag: 'HEARTFELT',
-    accentColor: '#f59e0b',
-    posterTheme: 'amber',
-    thumbnail: null,
-    videoUrl: '/videos/ep3-emotional-damage.mp4',
-    sampleVideoUrl: '/assets/intro/messi-feature.mp4',
-    isPlaceholder: true,
-    description:
-      'Put the tissues nearby. No jokes for five minutes — just honest stories about how much you mean to the crew.',
-  },
-  {
-    id: 'orig-ep4',
-    episodeNumber: 'EP. 04',
-    title: 'The Roast Session',
-    personName: 'Hostel & College Crew',
-    collection: 'Other Friends',
-    section: 'other-friends',
-    duration: '06:30',
-    durationSeconds: 390,
-    matchScore: '100% Match',
-    year: '2026',
-    maturityRating: 'TV-MA',
-    tag: 'COMEDY',
-    accentColor: '#ef4444',
-    posterTheme: 'inferno',
-    thumbnail: null,
-    videoUrl: '/videos/ep4-roast-session.mp4',
-    sampleVideoUrl: '/assets/intro/Intro.mp4',
-    isPlaceholder: true,
-    description:
-      'Zero mercy, maximum love. A rapid-fire compilation of embarrassing stories, questionable decisions, and legendary comebacks.',
-  },
-  {
-    id: 'orig-ep5',
-    episodeNumber: 'EP. 05',
-    title: 'From India With Love',
-    personName: 'Family & Home Team',
-    collection: 'Family Collection',
-    section: 'family-collection',
-    duration: '08:10',
-    durationSeconds: 490,
-    matchScore: '99% Match',
-    year: '2026',
-    maturityRating: 'PG',
-    tag: 'FAMILY PICK',
-    accentColor: '#10b981',
-    posterTheme: 'emerald',
-    thumbnail: null,
-    videoUrl: '/videos/ep5-india-love.mp4',
-    sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
-    isPlaceholder: true,
-    description:
-      'Warm wishes, blessings, and nostalgic childhood stories straight from home to remind you where your story began.',
-  },
-  {
-    id: 'orig-ep6',
-    episodeNumber: 'EP. 06',
-    title: 'The Birthday Special',
-    personName: 'Everyone Together',
-    collection: 'Special Birthday Messages',
-    section: 'special-episodes',
-    duration: '09:45',
-    durationSeconds: 585,
-    matchScore: '100% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'SPECIAL',
-    accentColor: '#E50914',
-    posterTheme: 'gold',
-    thumbnail: null,
-    videoUrl: '/videos/ep6-birthday-special.mp4',
-    sampleVideoUrl: '/assets/intro/Intro.mp4',
-    isPlaceholder: true,
-    description:
-      'The grand birthday centerpiece combining a synchronized toast, final messages, and an unforgettable group send-off.',
-  },
-
-  // --- OTHER FRIENDS ---
-  {
-    id: 'boys-1',
-    episodeNumber: 'FRD. 01',
-    title: 'Late Night Pitch Debates',
-    personName: 'Football & Chai Gang',
-    collection: 'Other Friends',
-    section: 'other-friends',
-    duration: '03:20',
-    durationSeconds: 200,
-    matchScore: '96% Match',
-    year: '2026',
-    maturityRating: '16+',
-    tag: 'UNFILTERED',
-    posterTheme: 'slate',
-    thumbnail: null,
-    videoUrl: '/videos/boys-1.mp4',
-    sampleVideoUrl: '/assets/intro/friend-football.mp4',
-    isPlaceholder: true,
-    description:
-      'Three hours of arguing over tactical formations instead of sleeping.',
-  },
-  {
-    id: 'boys-2',
-    episodeNumber: 'FRD. 02',
-    title: 'The Goa Plan That Survived',
-    personName: 'Roadtrip Crew',
-    collection: 'Other Friends',
-    section: 'other-friends',
-    duration: '04:10',
-    durationSeconds: 250,
-    matchScore: '98% Match',
-    year: '2026',
-    maturityRating: '18+',
-    tag: 'LEGENDARY',
-    posterTheme: 'ocean',
-    thumbnail: null,
-    videoUrl: '/videos/boys-2.mp4',
-    sampleVideoUrl: '/assets/intro/Intro.mp4',
-    isPlaceholder: true,
-    description:
-      'Against all group-chat odds, this crew actually made memories happen.',
-  },
-  {
-    id: 'boys-3',
-    episodeNumber: 'FRD. 03',
-    title: 'Midnight Biryani Protocol',
-    personName: 'Hostel Block B',
-    collection: 'College Friends',
-    section: 'other-friends',
-    duration: '02:50',
-    durationSeconds: 170,
-    matchScore: '95% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'CLASSIC',
-    posterTheme: 'amber',
-    thumbnail: null,
-    videoUrl: '/videos/boys-3.mp4',
-    sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
-    isPlaceholder: true,
-    description:
-      'No deadline or morning lecture could stop the 1 AM food mission.',
-  },
-  {
-    id: 'boys-4',
-    episodeNumber: 'FRD. 04',
-    title: 'Wingman Chronicles',
-    personName: 'Day-One Bros',
-    collection: 'Other Friends',
-    section: 'other-friends',
-    duration: '03:45',
-    durationSeconds: 225,
-    matchScore: '97% Match',
-    year: '2026',
-    maturityRating: '16+',
-    tag: 'MUST WATCH',
-    posterTheme: 'crimson',
-    thumbnail: null,
-    videoUrl: '/videos/boys-4.mp4',
-    sampleVideoUrl: '/assets/intro/messi-feature.mp4',
-    isPlaceholder: true,
-    description:
-      'Highlight reel of unmatched loyalty, questionable advice, and pure laughs.',
-  },
-
-  // --- FAMILY COLLECTION ---
-  {
-    id: 'family-1',
-    episodeNumber: 'FAM. 01',
-    title: 'Home Sweet Home',
-    personName: 'Parents',
-    collection: 'Family Collection',
-    section: 'family-collection',
-    duration: '05:15',
-    durationSeconds: 315,
-    matchScore: '100% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'HEARTFELT',
-    posterTheme: 'emerald',
-    thumbnail: null,
-    videoUrl: '/videos/family-1.mp4',
-    sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
-    isPlaceholder: true,
-    description:
-      'Blessings, pride, and timeless love from the ones who cheered first.',
-  },
-  {
-    id: 'family-2',
-    episodeNumber: 'FAM. 02',
-    title: 'Sibling Rivalry & Love',
-    personName: 'Siblings & Cousins',
-    collection: 'Family Collection',
-    section: 'family-collection',
-    duration: '04:05',
-    durationSeconds: 245,
-    matchScore: '99% Match',
-    year: '2026',
-    maturityRating: 'PG',
-    tag: 'FUNNY',
-    posterTheme: 'violet',
-    thumbnail: null,
-    videoUrl: '/videos/family-2.mp4',
-    sampleVideoUrl: '/assets/intro/Intro.mp4',
-    isPlaceholder: true,
-    description:
-      'Expect 50% embarrassing childhood photos and 50% genuine appreciation.',
-  },
-  {
-    id: 'family-3',
-    episodeNumber: 'FAM. 03',
-    title: 'Family Reunion Wishes',
-    personName: 'Extended Family',
-    collection: 'Family Collection',
-    section: 'family-collection',
-    duration: '06:00',
-    durationSeconds: 360,
-    matchScore: '98% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'SPECIAL',
-    posterTheme: 'gold',
-    thumbnail: null,
-    videoUrl: '/videos/family-3.mp4',
-    sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
-    isPlaceholder: true,
-    description:
-      'Warm birthday greetings gathered from every branch of the family tree.',
-  },
-
-  // --- THE FOOTBALL COLLECTION (Existing Valid MP4 Clips from Stadium Edition) ---
-  {
-    id: 'football-1',
-    episodeNumber: 'MATCH 01',
-    title: 'The Playmaker’s Cut',
-    personName: 'Rutvik FC Pitch Reel',
-    collection: 'The Boys',
-    section: 'football-collection',
-    duration: '00:10',
-    durationSeconds: 10,
-    matchScore: '99% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'STADIUM REEL',
-    posterTheme: 'pitch',
-    thumbnail: '/assets/intro/football.png',
-    videoUrl: '/assets/intro/friend-football.mp4',
-    sampleVideoUrl: '/assets/intro/friend-football.mp4',
-    isPlaceholder: false,
-    isSamplePreview: true,
-    description:
-      'Existing matchday footage from Stadium Edition. Watch Rutvik commanding midfield space under the stadium floodlights.',
-  },
-  {
-    id: 'football-2',
-    episodeNumber: 'MATCH 02',
-    title: 'World Champion Inspiration',
-    personName: 'Football Tribute',
-    collection: 'Special Birthday Messages',
-    section: 'football-collection',
-    duration: '00:10',
-    durationSeconds: 10,
-    matchScore: '99% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'STADIUM REEL',
-    posterTheme: 'ocean',
-    thumbnail: '/assets/intro/football.png',
-    videoUrl: '/assets/intro/messi-feature.mp4',
-    sampleVideoUrl: '/assets/intro/messi-feature.mp4',
-    isPlaceholder: false,
-    isSamplePreview: true,
-    description:
-      'Existing tribute clip from Stadium Edition celebrating relentless resilience and champion mentality.',
-  },
-  {
-    id: 'football-3',
-    episodeNumber: 'MATCH 03',
-    title: 'Stadium Curtain Raiser',
-    personName: 'Matchday Intro',
-    collection: 'Special Birthday Messages',
-    section: 'football-collection',
-    duration: '00:10',
-    durationSeconds: 10,
-    matchScore: '97% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'STADIUM REEL',
-    posterTheme: 'crimson',
-    thumbnail: '/assets/intro/football.png',
-    videoUrl: '/assets/intro/curtain-opening.mp4',
-    sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
-    isPlaceholder: false,
-    isSamplePreview: true,
-    description:
-      'Existing theatrical stadium curtain-opening clip setting the stage for Captain Rutvik’s birthday showcase.',
-  },
-  {
-    id: 'football-4',
-    episodeNumber: 'MATCH 04',
-    title: 'Director’s Turf Anthem',
-    personName: 'Full Intro Montage',
-    collection: 'The Boys',
-    section: 'football-collection',
-    duration: '00:10',
-    durationSeconds: 10,
-    matchScore: '98% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'STADIUM REEL',
-    posterTheme: 'emerald',
-    thumbnail: '/assets/intro/football.png',
-    videoUrl: '/assets/intro/Intro.mp4',
-    sampleVideoUrl: '/assets/intro/Intro.mp4',
-    isPlaceholder: false,
-    isSamplePreview: true,
-    description:
-      'Existing stadium intro montage blending floodlight energy, matchday atmosphere, and squad spirit.',
-  },
-
-  // --- MEMORIES & HALL OF FAME ---
-  {
-    id: 'mem-1',
-    episodeNumber: 'MEM. 01',
-    title: 'First Year Flashbacks',
-    personName: 'College Friends',
-    collection: 'College Friends',
-    section: 'memories',
-    duration: '04:30',
-    durationSeconds: 270,
-    matchScore: '96% Match',
-    year: '2026',
-    maturityRating: 'PG',
-    tag: 'THROWBACK',
-    posterTheme: 'midnight',
-    thumbnail: null,
-    videoUrl: '/videos/mem-1.mp4',
-    sampleVideoUrl: '/assets/intro/Intro.mp4',
-    isPlaceholder: true,
-    description:
-      'Where awkward introductions turned into lifelong friendship.',
-  },
-  {
-    id: 'mem-2',
-    episodeNumber: 'MEM. 02',
-    title: 'Convocation & Milestones',
-    personName: 'Campus Batchmates',
-    collection: 'College Friends',
-    section: 'memories',
-    duration: '03:55',
-    durationSeconds: 235,
-    matchScore: '98% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'HALL OF FAME',
-    posterTheme: 'gold',
-    thumbnail: null,
-    videoUrl: '/videos/mem-2.mp4',
-    sampleVideoUrl: '/assets/intro/curtain-opening.mp4',
-    isPlaceholder: true,
-    description:
-      'Celebrating the wins, late-night submissions, and unforgettable milestones.',
-  },
-  {
-    id: 'mem-3',
-    episodeNumber: 'MEM. 03',
-    title: 'Timezones Can’t Stop Us',
-    personName: 'International Crew',
-    collection: 'Long Distance Wishes',
-    section: 'memories',
-    duration: '05:10',
-    durationSeconds: 310,
-    matchScore: '99% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'GLOBAL',
-    posterTheme: 'ocean',
-    thumbnail: null,
-    videoUrl: '/videos/mem-3.mp4',
-    sampleVideoUrl: '/assets/intro/messi-feature.mp4',
-    isPlaceholder: true,
-    description:
-      'Long-distance video calls and candid throwback highlights across borders.',
-  },
-
-  // --- SPECIAL EPISODES & BIRTHDAY TRAILER ---
-  {
-    id: 'spec-trailer',
-    episodeNumber: 'TRAILER',
-    title: 'The Official Birthday Trailer',
-    personName: 'Production Crew',
-    collection: 'Special Birthday Messages',
-    section: 'special-episodes',
-    duration: '01:40',
-    durationSeconds: 100,
-    matchScore: '100% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'TEASER',
-    posterTheme: 'crimson',
-    thumbnail: '/assets/intro/football.png',
-    videoUrl: '/videos/birthday-trailer.mp4',
-    sampleVideoUrl: '/assets/intro/Intro.mp4',
-    isPlaceholder: true,
-    description:
-      'The official teaser welcoming Rutvik to his dedicated birthday streaming universe.',
-  },
-  {
-    id: 'spec-1',
-    episodeNumber: 'BONUS 01',
-    title: 'Behind The Scenes & Bloopers',
-    personName: 'Everyone',
-    collection: 'Special Birthday Messages',
-    section: 'special-episodes',
-    duration: '04:20',
-    durationSeconds: 260,
-    matchScore: '98% Match',
-    year: '2026',
-    maturityRating: 'TV-MA',
-    tag: 'OUTTAKES',
-    posterTheme: 'inferno',
-    thumbnail: null,
-    videoUrl: '/videos/spec-bloopers.mp4',
-    sampleVideoUrl: '/assets/intro/friend-football.mp4',
-    isPlaceholder: true,
-    description:
-      'All the forgotten lines, accidental camera drops, and hilarious takes we kept.',
-  },
-  {
-    id: 'spec-finale',
-    episodeNumber: 'FINALE',
-    title: 'Combined Birthday Tribute',
-    personName: 'Friends & Family United',
-    collection: 'Special Birthday Messages',
-    section: 'grand-finale',
-    duration: '--:--',
-    durationSeconds: 0,
-    matchScore: '100% Match',
-    year: '2026',
-    maturityRating: 'ALL',
-    tag: 'GRAND FINALE',
-    posterTheme: 'gold',
-    thumbnail: '/assets/intro/football.png',
-    videoUrl: '/videos/grand-finale-tribute.mp4',
-    sampleVideoUrl: null,
-    disableSampleFallback: true,
-    isPlaceholder: true,
-    status: 'awaiting-upload',
-    placeholderBadge: 'AWAITING UPLOAD',
-    description:
-      'The combined full-length birthday finale featuring every friend and family member together on one screen.',
-  },
-
-  // --- THE PEOPLE BEHIND THE LEGEND (8 Individual Friend Episodes) ---
+/**
+ * COLLECTION 1: THE PEOPLE BEHIND THE LEGEND (8 Individual Friend Episodes)
+ */
+export const FRIENDS_VIDEOS = [
   {
     id: 'legend-s01e01',
     episodeNumber: 'S01 E01',
@@ -588,7 +55,7 @@ export const ALL_VIDEOS = [
     maturityRating: 'ALL',
     tag: 'EPISODE 01',
     posterTheme: 'crimson',
-    thumbnail: null, // Independent thumbnail path: '/thumbnails/legend-s01e01-gargi.jpg'
+    thumbnail: null,
     expectedThumbnail: '/thumbnails/legend-s01e01-gargi.jpg',
     videoUrl: '/videos/legend-s01e01-gargi.mp4',
     sampleVideoUrl: null,
@@ -613,7 +80,7 @@ export const ALL_VIDEOS = [
     maturityRating: 'ALL',
     tag: 'EPISODE 02',
     posterTheme: 'violet',
-    thumbnail: null, // Independent thumbnail path: '/thumbnails/legend-s01e02-manasi.jpg'
+    thumbnail: null,
     expectedThumbnail: '/thumbnails/legend-s01e02-manasi.jpg',
     videoUrl: '/videos/legend-s01e02-manasi.mp4',
     sampleVideoUrl: null,
@@ -638,7 +105,7 @@ export const ALL_VIDEOS = [
     maturityRating: 'ALL',
     tag: 'EPISODE 03',
     posterTheme: 'ocean',
-    thumbnail: null, // Independent thumbnail path: '/thumbnails/legend-s01e03-ria.jpg'
+    thumbnail: null,
     expectedThumbnail: '/thumbnails/legend-s01e03-ria.jpg',
     videoUrl: '/videos/legend-s01e03-ria.mp4',
     sampleVideoUrl: null,
@@ -663,7 +130,7 @@ export const ALL_VIDEOS = [
     maturityRating: 'ALL',
     tag: 'EPISODE 04',
     posterTheme: 'amber',
-    thumbnail: null, // Independent thumbnail path: '/thumbnails/legend-s01e04-aarish.jpg'
+    thumbnail: null,
     expectedThumbnail: '/thumbnails/legend-s01e04-aarish.jpg',
     videoUrl: '/videos/legend-s01e04-aarish.mp4',
     sampleVideoUrl: null,
@@ -688,7 +155,7 @@ export const ALL_VIDEOS = [
     maturityRating: 'ALL',
     tag: 'EPISODE 05',
     posterTheme: 'emerald',
-    thumbnail: null, // Independent thumbnail path: '/thumbnails/legend-s01e05-durve.jpg'
+    thumbnail: null,
     expectedThumbnail: '/thumbnails/legend-s01e05-durve.jpg',
     videoUrl: '/videos/legend-s01e05-durve.mp4',
     sampleVideoUrl: null,
@@ -713,7 +180,7 @@ export const ALL_VIDEOS = [
     maturityRating: 'ALL',
     tag: 'EPISODE 06',
     posterTheme: 'midnight',
-    thumbnail: null, // Independent thumbnail path: '/thumbnails/legend-s01e06-omkar.jpg'
+    thumbnail: null,
     expectedThumbnail: '/thumbnails/legend-s01e06-omkar.jpg',
     videoUrl: '/videos/legend-s01e06-omkar.mp4',
     sampleVideoUrl: null,
@@ -738,7 +205,7 @@ export const ALL_VIDEOS = [
     maturityRating: 'ALL',
     tag: 'EPISODE 07',
     posterTheme: 'inferno',
-    thumbnail: null, // Independent thumbnail path: '/thumbnails/legend-s01e07-aditya.jpg'
+    thumbnail: null,
     expectedThumbnail: '/thumbnails/legend-s01e07-aditya.jpg',
     videoUrl: '/videos/legend-s01e07-aditya.mp4',
     sampleVideoUrl: null,
@@ -763,7 +230,7 @@ export const ALL_VIDEOS = [
     maturityRating: 'ALL',
     tag: 'EPISODE 08',
     posterTheme: 'gold',
-    thumbnail: null, // Independent thumbnail path: '/thumbnails/legend-s01e08-kasar.jpg'
+    thumbnail: null,
     expectedThumbnail: '/thumbnails/legend-s01e08-kasar.jpg',
     videoUrl: '/videos/legend-s01e08-kasar.mp4',
     sampleVideoUrl: null,
@@ -776,65 +243,55 @@ export const ALL_VIDEOS = [
   },
 ];
 
+/**
+ * COLLECTION 2: A MESSAGE FROM HOME (Dedicated Parents' Birthday Episode)
+ */
+export const PARENTS_VIDEO = {
+  id: 'parents-most-special-message',
+  episodeNumber: 'FEATURED',
+  title: 'THE MOST SPECIAL MESSAGE',
+  subtitle: 'A message from the two people who mean the world.',
+  personName: 'Parents',
+  collection: 'A Message From Home',
+  section: 'message-from-home',
+  duration: '--:--',
+  durationSeconds: 0,
+  matchScore: '100% Match',
+  year: '2026',
+  maturityRating: 'ALL',
+  tag: 'FROM HOME',
+  posterTheme: 'gold',
+  thumbnail: null,
+  expectedThumbnail: '/thumbnails/parents-special-message.jpg',
+  videoUrl: '/videos/parents-special-message.mp4',
+  sampleVideoUrl: null,
+  disableSampleFallback: true,
+  isPlaceholder: true,
+  status: 'awaiting-upload',
+  placeholderBadge: 'AWAITING UPLOAD',
+  description: 'A message from the two people who mean the world.',
+};
+
+export const ALL_VIDEOS = [...FRIENDS_VIDEOS, PARENTS_VIDEO];
+
+export const EPISODE_COLLECTIONS = [
+  { id: 'all', label: 'All Collections' },
+  { id: 'The People Behind The Legend', label: 'The People Behind The Legend' },
+  { id: 'A Message From Home', label: 'A Message From Home' },
+];
+
 export const SECTION_ROWS = [
   {
     id: 'people-behind-the-legend',
     title: 'THE PEOPLE BEHIND THE LEGEND',
     subtitle: 'Eight individual birthday episodes from the inner circle',
-    filter: (video) =>
-      video.section === 'people-behind-the-legend' ||
-      (video.collection || video.category) === 'The People Behind The Legend',
+    filter: (video) => video.section === 'people-behind-the-legend',
   },
   {
-    id: 'other-friends',
-    title: 'OTHER FRIENDS',
-    subtitle: 'More wishes. More memories. More madness.',
-    filter: (video) =>
-      (video.section === 'other-friends' ||
-        video.section === 'the-boys' ||
-        (video.collection || video.category) === 'Other Friends' ||
-        (video.collection || video.category) === 'The Boys') &&
-      video.section !== 'people-behind-the-legend' &&
-      (video.collection || video.category) !== 'The People Behind The Legend' &&
-      video.section !== 'family-collection' &&
-      (video.collection || video.category) !== 'Family Collection' &&
-      video.section !== 'football-collection',
-  },
-  {
-    id: 'family-collection',
-    title: 'FAMILY COLLECTION',
-    subtitle: 'A little extra love from home.',
-    filter: (video) =>
-      (video.section === 'family-collection' ||
-        (video.collection || video.category) === 'Family Collection') &&
-      video.section !== 'people-behind-the-legend' &&
-      (video.collection || video.category) !== 'The People Behind The Legend' &&
-      video.section !== 'other-friends' &&
-      video.section !== 'the-boys' &&
-      (video.collection || video.category) !== 'Other Friends' &&
-      (video.collection || video.category) !== 'The Boys',
-  },
-  {
-    id: 'memories',
-    title: 'MEMORIES & HALL OF FAME',
-    subtitle: 'College classics, unforgettable trips, football highlights, and timeless milestones',
-    filter: (video) =>
-      video.section === 'memories' ||
-      video.section === 'football-collection' ||
-      (video.collection || video.category) === 'Long Distance Wishes' ||
-      ((video.collection || video.category) === 'College Friends' &&
-        video.section !== 'other-friends'),
-  },
-  {
-    id: 'special-episodes',
-    title: 'SPECIAL EPISODES',
-    subtitle: 'The official birthday trailer, behind-the-scenes outtakes, and bonus tributes',
-    filter: (video) =>
-      video.section === 'special-episodes' ||
-      ((video.collection || video.category) === 'Special Birthday Messages' &&
-        video.section !== 'grand-finale' &&
-        video.section !== 'football-collection' &&
-        video.section !== 'people-behind-the-legend'),
+    id: 'message-from-home',
+    title: 'A MESSAGE FROM HOME',
+    subtitle: 'A message from the two people who mean the world.',
+    filter: (video) => video.section === 'message-from-home',
   },
 ];
 

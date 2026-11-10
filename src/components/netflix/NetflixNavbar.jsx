@@ -1,37 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Search,
-  Bell,
   ChevronDown,
-  Trophy,
   Menu,
   X,
-  Play,
   RotateCcw,
-  Sparkles,
   Shield,
-  Heart,
 } from 'lucide-react';
 
 export default function NetflixNavbar({
   activeCategory,
-  onSelectCategory,
   onOpenStadium,
   onReplayIntro,
   searchQuery,
   onSearchChange,
-  onPlayTrailer,
   onScrollToSection,
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const searchInputRef = useRef(null);
   const profileRef = useRef(null);
-  const notifRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,14 +32,10 @@ export default function NetflixNavbar({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setIsProfileOpen(false);
-      }
-      if (notifRef.current && !notifRef.current.contains(e.target)) {
-        setIsNotifOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -69,12 +56,8 @@ export default function NetflixNavbar({
 
   const navItems = [
     { id: 'home', label: 'Home', sectionId: 'hero' },
-    { id: 'legend', label: 'The Legend', sectionId: 'row-people-behind-the-legend' },
-    { id: 'other-friends', label: 'Other Friends', sectionId: 'row-other-friends' },
-    { id: 'family', label: 'Family', sectionId: 'row-family-collection' },
-    { id: 'memories', label: 'Memories', sectionId: 'row-memories' },
-    { id: 'special', label: 'Special', sectionId: 'row-special-episodes' },
-    { id: 'finale', label: 'Grand Finale', sectionId: 'finale' },
+    { id: 'friends', label: 'Our Friends', sectionId: 'row-people-behind-the-legend' },
+    { id: 'family', label: 'Family', sectionId: 'section-message-from-home' },
   ];
 
   const handleNavClick = (item) => {
@@ -108,7 +91,7 @@ export default function NetflixNavbar({
           <span className="nf-logo-plus">+</span>
         </div>
 
-        {/* Primary Desktop Nav Links */}
+        {/* Simplified Navigation */}
         <nav aria-label="Main Navigation">
           <ul className="nf-nav-links">
             {navItems.map((item) => (
@@ -127,18 +110,18 @@ export default function NetflixNavbar({
       </div>
 
       <div className="nf-nav-right">
-        {/* Switch to Stadium Experience Button (Preserves other developer's work) */}
+        {/* Switch to Preserved Stadium Edition */}
         <button
           type="button"
           className="nf-stadium-switch-btn"
           onClick={onOpenStadium}
-          title="Switch to Matchday Stadium Experience & 3D Ball"
+          title="Switch to Matchday Stadium Edition"
         >
           <Shield size={14} color="#10b981" />
           <span>STADIUM EDITION</span>
         </button>
 
-        {/* Expandable Search Input */}
+        {/* Expandable Search across the 9 birthday videos */}
         <div className={`nf-search-wrapper ${isSearchOpen ? 'open' : ''}`}>
           <button
             type="button"
@@ -152,55 +135,10 @@ export default function NetflixNavbar({
             ref={searchInputRef}
             type="text"
             className="nf-search-input"
-            placeholder="Titles, friends, moments..."
+            placeholder="Search friends or family..."
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
           />
-        </div>
-
-        {/* Notification Bell with Birthday Alert Dropdown */}
-        <div style={{ position: 'relative' }} ref={notifRef}>
-          <button
-            type="button"
-            className="nf-icon-btn"
-            onClick={() => setIsNotifOpen(!isNotifOpen)}
-            aria-label="Notifications"
-          >
-            <Bell size={19} />
-            <span className="nf-notif-dot" />
-          </button>
-
-          {isNotifOpen && (
-            <div className="nf-dropdown-menu" style={{ width: '280px' }}>
-              <div style={{ padding: '0.65rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#E50914', letterSpacing: '0.08em' }}>
-                  BIRTHDAY NOTIFICATIONS
-                </span>
-              </div>
-              <div style={{ padding: '0.75rem 1rem', display: 'flex', gap: '0.75rem' }}>
-                <Sparkles size={22} color="#fbbf24" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#ffffff' }}>
-                    New Birthday Wishes Added!
-                  </div>
-                  <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '0.2rem' }}>
-                    6 original episodes & family messages are ready to stream.
-                  </div>
-                </div>
-              </div>
-              <div style={{ padding: '0.75rem 1rem', display: 'flex', gap: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                <Trophy size={20} color="#10b981" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#ffffff' }}>
-                    Matchday Edition Active
-                  </div>
-                  <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '0.2rem' }}>
-                    Rutvik FC #10 special tribute unlocked.
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Profile Avatar & Dropdown */}
@@ -212,27 +150,18 @@ export default function NetflixNavbar({
             aria-label="User Profile"
           >
             <div className="nf-profile-avatar">R</div>
-            <ChevronDown size={14} style={{ transition: 'transform 0.2s', transform: isProfileOpen ? 'rotate(180deg)' : 'none' }} />
+            <ChevronDown
+              size={14}
+              style={{ transition: 'transform 0.2s', transform: isProfileOpen ? 'rotate(180deg)' : 'none' }}
+            />
           </button>
 
           {isProfileOpen && (
             <div className="nf-dropdown-menu">
               <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                 <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#ffffff' }}>Rutvik (Captain #10)</div>
-                <div style={{ fontSize: '0.75rem', color: '#46d369', fontWeight: 600 }}>VIP Birthday Pass • 4K</div>
+                <div style={{ fontSize: '0.75rem', color: '#46d369', fontWeight: 600 }}>RUTVIK+ Private Pass</div>
               </div>
-
-              <button
-                type="button"
-                className="nf-dropdown-item"
-                onClick={() => {
-                  setIsProfileOpen(false);
-                  onPlayTrailer?.();
-                }}
-              >
-                <Play size={15} color="#E50914" />
-                <span>Play Birthday Trailer</span>
-              </button>
 
               {onReplayIntro && (
                 <button
@@ -258,18 +187,6 @@ export default function NetflixNavbar({
               >
                 <Shield size={15} color="#10b981" />
                 <span>Switch to Stadium Edition</span>
-              </button>
-
-              <button
-                type="button"
-                className="nf-dropdown-item"
-                onClick={() => {
-                  setIsProfileOpen(false);
-                  onScrollToSection?.('finale');
-                }}
-              >
-                <Heart size={15} color="#f43f5e" />
-                <span>Jump to Grand Finale</span>
               </button>
             </div>
           )}
@@ -349,4 +266,3 @@ export default function NetflixNavbar({
     </header>
   );
 }
-
