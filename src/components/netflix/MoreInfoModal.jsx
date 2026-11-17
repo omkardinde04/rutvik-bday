@@ -208,13 +208,13 @@ export default function MoreInfoModal({ item, onClose, onPlayEpisode }) {
                     <div
                       style={{
                         fontSize: '0.74rem',
-                        color: ep.title === (ep.senderName || ep.personName) ? '#E50914' : '#46d369',
+                        color: (ep.title || '').toLowerCase() === (ep.senderName || ep.personName || '').toLowerCase() ? '#E50914' : '#46d369',
                         fontWeight: 700,
-                        letterSpacing: ep.title === (ep.senderName || ep.personName) ? '0.06em' : 'normal',
+                        letterSpacing: (ep.title || '').toLowerCase() === (ep.senderName || ep.personName || '').toLowerCase() ? '0.06em' : 'normal',
                         marginBottom: '0.2rem',
                       }}
                     >
-                      {ep.title === (ep.senderName || ep.personName)
+                      {(ep.title || '').toLowerCase() === (ep.senderName || ep.personName || '').toLowerCase()
                         ? ep.episodeNumber
                         : ep.senderName || ep.personName}
                     </div>

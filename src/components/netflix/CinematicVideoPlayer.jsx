@@ -32,22 +32,25 @@ export default function CinematicVideoPlayer({ video, onClose, onVideoEnded }) {
   const [volume, setVolume] = useState(0.85);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = useState(Boolean(video?.isPlaceholder && video?.disableSampleFallback));
   const [activeVideoSrc, setActiveVideoSrc] = useState(video?.videoUrl || '');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
 
   const sender = video?.senderName || video?.personName || 'Friends & Family';
   const category = video?.category || video?.collection || 'Birthday Special';
   const isShowingSample = Boolean(isPreviewMode || video?.isSamplePreview);
+  const isPlaceholderSlot = Boolean(video?.isPlaceholder);
 
-  // Initialize source
+  // Initialize source when switching videos
   useEffect(() => {
     const isUnuploadedStrict = Boolean(video?.isPlaceholder && video?.disableSampleFallback);
     setActiveVideoSrc(video?.videoUrl || '');
     setHasError(isUnuploadedStrict);
     setIsPreviewMode(false);
+    setIsPlaying(false);
+    setCurrentTime(0);
     lastSavedSecRef.current = -1;
-  }, [video]);
+  }, [video?.id, video?.videoUrl, video?.isPlaceholder, video?.disableSampleFallback]);
 
   // Handle Fullscreen change events
   useEffect(() => {
@@ -271,6 +274,7 @@ export default function CinematicVideoPlayer({ video, onClose, onVideoEnded }) {
         <div className="nf-player-video-stage" onClick={togglePlay}>
           {!hasError ? (
             <video
+              key={video?.id || activeVideoSrc}
               ref={videoRef}
               className="nf-player-video"
               src={activeVideoSrc}
@@ -288,7 +292,7 @@ export default function CinematicVideoPlayer({ video, onClose, onVideoEnded }) {
                 onVideoEnded?.();
               }}
             />
-          ) : (
+          ) : isPlaceholderSlot ? (
             /* Graceful Placeholder for Missing/Upcoming Birthday Videos */
             <div className="nf-missing-video-box" onClick={(e) => e.stopPropagation()}>
               <Film size={46} color="#E50914" style={{ marginBottom: '1rem' }} />
@@ -324,6 +328,43 @@ export default function CinematicVideoPlayer({ video, onClose, onVideoEnded }) {
                   <span>Close Slot Preview</span>
                 </button>
               )}
+            </div>
+          ) : (
+            /* Runtime video load error state for uploaded videos */
+            <div className="nf-missing-video-box" onClick={(e) => e.stopPropagation()}>
+              <AlertCircle size={46} color="#E50914" style={{ marginBottom: '1rem' }} />
+              <h3 style={{ fontSize: '1.45rem', fontWeight: 800, marginBottom: '0.45rem', color: '#ffffff' }}>
+                Unable to Play Video
+              </h3>
+              <p style={{ color: '#d1d5db', maxWidth: '480px', fontSize: '0.92rem', lineHeight: '1.5', marginBottom: '1.25rem' }}>
+                Could not load <strong>{video?.title || sender}</strong> from{' '}
+                <code style={{ background: 'rgba(255,255,255,0.12)', padding: '0.15rem 0.4rem', borderRadius: '3px', color: '#fbbf24' }}>
+                  {activeVideoSrc}
+                </code>.
+              </p>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <button
+                  type="button"
+                  className="nf-btn-play"
+                  style={{ fontSize: '0.92rem', padding: '0.65rem 1.45rem' }}
+                  onClick={() => {
+                    setHasError(false);
+                    setActiveVideoSrc(video?.videoUrl || '');
+                  }}
+                >
+                  <RotateCcw size={16} color="#141414" />
+                  <span>Retry</span>
+                </button>
+                <button
+                  type="button"
+                  className="nf-btn-info"
+                  style={{ fontSize: '0.92rem', padding: '0.65rem 1.45rem' }}
+                  onClick={handleClosePlayer}
+                >
+                  <X size={16} />
+                  <span>Close</span>
+                </button>
+              </div>
             </div>
           )}
 

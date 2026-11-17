@@ -1,9 +1,13 @@
 import React from 'react';
 import { Play, Info, Heart } from 'lucide-react';
-import { PARENTS_VIDEO } from '../../data/videoCatalog';
+import { FAMILY_VIDEOS } from '../../data/videoCatalog';
 import VideoCard from './VideoCard';
 
-export default function MessageFromHome({ onPlay, onMoreInfo, video = PARENTS_VIDEO }) {
+export default function MessageFromHome({ onPlay, onMoreInfo, videos = FAMILY_VIDEOS }) {
+  const familyEpisodes = Array.isArray(videos) && videos.length > 0 ? videos : FAMILY_VIDEOS;
+  const momEpisode = familyEpisodes[0];
+  const dadEpisode = familyEpisodes[1] || momEpisode;
+
   return (
     <section
       className="nf-home-message-section"
@@ -15,7 +19,7 @@ export default function MessageFromHome({ onPlay, onMoreInfo, video = PARENTS_VI
         <div className="nf-carousel-title-group">
           <h2 className="nf-carousel-title">A MESSAGE FROM HOME</h2>
           <span className="nf-carousel-subtitle">
-            {PARENTS_VIDEO.subtitle}
+            A message from the two people who mean the world.
           </span>
         </div>
       </header>
@@ -32,13 +36,25 @@ export default function MessageFromHome({ onPlay, onMoreInfo, video = PARENTS_VI
           gap: '2.25rem',
         }}
       >
-        <VideoCard
-          video={video}
-          onPlay={onPlay}
-          onMoreInfo={onMoreInfo}
-        />
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '1.25rem',
+            alignItems: 'stretch',
+          }}
+        >
+          {familyEpisodes.map((ep) => (
+            <VideoCard
+              key={ep.id}
+              video={ep}
+              onPlay={onPlay}
+              onMoreInfo={onMoreInfo}
+            />
+          ))}
+        </div>
 
-        <div style={{ flex: '1 1 320px', maxWidth: '580px' }}>
+        <div style={{ flex: '1 1 280px', maxWidth: '520px' }}>
           <div
             style={{
               display: 'inline-flex',
@@ -53,7 +69,7 @@ export default function MessageFromHome({ onPlay, onMoreInfo, video = PARENTS_VI
             }}
           >
             <Heart size={14} fill="#fbbf24" />
-            <span>FAMILY FEATURE • {PARENTS_VIDEO.personName}</span>
+            <span>FAMILY FEATURE • MOM & DAD</span>
           </div>
 
           <h3
@@ -65,7 +81,7 @@ export default function MessageFromHome({ onPlay, onMoreInfo, video = PARENTS_VI
               marginBottom: '0.75rem',
             }}
           >
-            {PARENTS_VIDEO.title}
+            MOM & DAD
           </h3>
 
           <p
@@ -76,29 +92,45 @@ export default function MessageFromHome({ onPlay, onMoreInfo, video = PARENTS_VI
               marginBottom: '1.5rem',
             }}
           >
-            {PARENTS_VIDEO.subtitle}
+            A message from the two people who mean the world.
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
-            <button
-              type="button"
-              className="nf-btn-play"
-              style={{ padding: '0.65rem 1.45rem', fontSize: '0.94rem' }}
-              onClick={() => onPlay(PARENTS_VIDEO)}
-            >
-              <Play size={17} fill="#141414" />
-              <span>PLAY</span>
-            </button>
+            {momEpisode && (
+              <button
+                type="button"
+                className="nf-btn-play"
+                style={{ padding: '0.65rem 1.4rem', fontSize: '0.94rem' }}
+                onClick={() => onPlay(momEpisode)}
+              >
+                <Play size={17} fill="#141414" />
+                <span>PLAY MOM</span>
+              </button>
+            )}
 
-            <button
-              type="button"
-              className="nf-btn-info"
-              style={{ padding: '0.65rem 1.35rem', fontSize: '0.94rem' }}
-              onClick={() => onMoreInfo(PARENTS_VIDEO)}
-            >
-              <Info size={17} />
-              <span>MORE INFO</span>
-            </button>
+            {dadEpisode && dadEpisode.id !== momEpisode?.id && (
+              <button
+                type="button"
+                className="nf-btn-play"
+                style={{ padding: '0.65rem 1.4rem', fontSize: '0.94rem' }}
+                onClick={() => onPlay(dadEpisode)}
+              >
+                <Play size={17} fill="#141414" />
+                <span>PLAY DAD</span>
+              </button>
+            )}
+
+            {momEpisode && (
+              <button
+                type="button"
+                className="nf-btn-info"
+                style={{ padding: '0.65rem 1.35rem', fontSize: '0.94rem' }}
+                onClick={() => onMoreInfo(momEpisode)}
+              >
+                <Info size={17} />
+                <span>MORE INFO</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

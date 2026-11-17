@@ -4,7 +4,7 @@ import {
   ALL_VIDEOS,
   FRIENDS_VIDEOS,
   HERO_FEATURED_CONTENT,
-  PARENTS_VIDEO,
+  FAMILY_VIDEOS,
   getSavedWatchProgress,
 } from '../../data/videoCatalog';
 import NetflixNavbar from './NetflixNavbar';
@@ -52,25 +52,27 @@ export default function RuthvikPlusExperience({ onReplayIntro }) {
     });
   }, [progressTick]);
 
-  const parentsWithProgress = useMemo(() => {
+  const familyWithProgress = useMemo(() => {
     void progressTick;
-    const saved = getSavedWatchProgress(PARENTS_VIDEO.id);
-    return saved ? { ...PARENTS_VIDEO, ...saved } : PARENTS_VIDEO;
+    return FAMILY_VIDEOS.map((video) => {
+      const saved = getSavedWatchProgress(video.id);
+      return saved ? { ...video, ...saved } : video;
+    });
   }, [progressTick]);
 
-  // Search filtering across the 9 birthday videos (8 friends + 1 parents)
+  // Search filtering across the 10 birthday videos (8 friends + 2 family)
   const searchResults = useMemo(() => {
     void progressTick;
     const q = searchQuery.trim().toLowerCase();
     if (!q) return [];
-    return [...friendsWithProgress, parentsWithProgress].filter(
+    return [...friendsWithProgress, ...familyWithProgress].filter(
       (v) =>
         (v.title || '').toLowerCase().includes(q) ||
         (v.senderName || v.personName || '').toLowerCase().includes(q) ||
         (v.category || v.collection || '').toLowerCase().includes(q) ||
         (v.description || '').toLowerCase().includes(q)
     );
-  }, [searchQuery, friendsWithProgress, parentsWithProgress, progressTick]);
+  }, [searchQuery, friendsWithProgress, familyWithProgress, progressTick]);
 
   const isSearching = searchQuery.trim().length > 0;
 
@@ -131,9 +133,9 @@ export default function RuthvikPlusExperience({ onReplayIntro }) {
               onMoreInfo={setMoreInfoItem}
             />
 
-            {/* 4. Collection 2: A MESSAGE FROM HOME (Dedicated Parents' Video) */}
+            {/* 4. Collection 2: A MESSAGE FROM HOME (Mom & Dad Birthday Videos) */}
             <MessageFromHome
-              video={parentsWithProgress}
+              videos={familyWithProgress}
               onPlay={handlePlayVideo}
               onMoreInfo={setMoreInfoItem}
             />

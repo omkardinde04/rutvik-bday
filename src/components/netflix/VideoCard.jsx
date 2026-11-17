@@ -15,7 +15,7 @@ export default function VideoCard({ video, onPlay, onMoreInfo, isContinueWatchin
 
   const themeClass = `nf-poster-art--${video.posterTheme || 'crimson'}`;
   const sender = video.senderName || video.personName || 'Friends & Family';
-  const showDistinctSender = Boolean(sender && sender !== video.title);
+  const showDistinctSender = Boolean(sender && sender.toLowerCase() !== (video.title || '').toLowerCase());
   const isAwaitingUpload = Boolean(video.isPlaceholder || video.status === 'awaiting-upload');
   const isSampleReel = Boolean(video.isSamplePreview);
 

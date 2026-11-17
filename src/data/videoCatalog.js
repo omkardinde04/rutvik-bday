@@ -1,9 +1,9 @@
 /**
  * RUTVIK+ Video Catalog Configuration
  *
- * Strictly contains the two personalized birthday collections (9 videos total):
+ * Strictly contains the two personalized birthday collections (10 videos total):
  * 1. FRIENDS_VIDEOS — "THE PEOPLE BEHIND THE LEGEND" (8 individual episodes: S01 E01 - S01 E08)
- * 2. PARENTS_VIDEO  — "A MESSAGE FROM HOME" (1 dedicated parents' featured episode)
+ * 2. FAMILY_VIDEOS  — "A MESSAGE FROM HOME" (2 individual episodes: MOM & DAD)
  *
  * To activate an episode once the MP4 file arrives:
  * 1. Place the MP4 inside `public/videos/` matching `videoUrl` (or set an external HTTPS MP4 URL).
@@ -281,35 +281,62 @@ export const FRIENDS_VIDEOS = [
 ];
 
 /**
- * COLLECTION 2: A MESSAGE FROM HOME (Dedicated Parents' Birthday Episode)
+ * COLLECTION 2: A MESSAGE FROM HOME (Mom & Dad Birthday Episodes)
  */
-export const PARENTS_VIDEO = {
-  id: 'parents-most-special-message',
-  episodeNumber: 'FEATURED',
-  title: 'THE MOST SPECIAL MESSAGE',
-  subtitle: 'A message from the two people who mean the world.',
-  personName: 'Parents',
-  collection: 'A Message From Home',
-  section: 'message-from-home',
-  duration: '--:--',
-  durationSeconds: 0,
-  matchScore: '100% Match',
-  year: '2026',
-  maturityRating: 'ALL',
-  tag: 'FROM HOME',
-  posterTheme: 'gold',
-  thumbnail: null,
-  expectedThumbnail: '/thumbnails/parents-special-message.jpg',
-  videoUrl: '/videos/parents-special-message.mp4',
-  sampleVideoUrl: null,
-  disableSampleFallback: true,
-  isPlaceholder: true,
-  status: 'awaiting-upload',
-  placeholderBadge: 'AWAITING UPLOAD',
-  description: 'A message from the two people who mean the world.',
-};
+export const FAMILY_VIDEOS = [
+  {
+    id: 'parents-most-special-message',
+    episodeNumber: 'EPISODE 01',
+    title: 'MOM',
+    personName: 'Mom',
+    collection: 'A Message From Home',
+    section: 'message-from-home',
+    duration: '02:57',
+    durationSeconds: 177,
+    matchScore: '100% Match',
+    year: '2026',
+    maturityRating: 'ALL',
+    tag: 'FROM HOME',
+    posterTheme: 'gold',
+    thumbnail: '/images/thumbnails/family/mother.jpg',
+    fallbackThumbnail: '/images/thumbnails/family/mother.jpg',
+    videoUrl: '/videos/core-members/mom.mp4',
+    sampleVideoUrl: null,
+    disableSampleFallback: true,
+    isPlaceholder: false,
+    isSamplePreview: false,
+    status: 'available',
+    placeholderBadge: null,
+    description: 'A special birthday message from Mom.',
+  },
+  {
+    id: 'parents-dad-message',
+    episodeNumber: 'EPISODE 02',
+    title: 'DAD',
+    personName: 'Dad',
+    collection: 'A Message From Home',
+    section: 'message-from-home',
+    duration: '00:40',
+    durationSeconds: 40,
+    matchScore: '100% Match',
+    year: '2026',
+    maturityRating: 'ALL',
+    tag: 'FROM HOME',
+    posterTheme: 'gold',
+    thumbnail: '/images/thumbnails/family/father.jpg',
+    fallbackThumbnail: '/images/thumbnails/family/father.jpg',
+    videoUrl: '/videos/core-members/dad.mp4',
+    sampleVideoUrl: null,
+    disableSampleFallback: true,
+    isPlaceholder: false,
+    isSamplePreview: false,
+    status: 'available',
+    placeholderBadge: null,
+    description: 'A special birthday message from Dad.',
+  },
+];
 
-export const ALL_VIDEOS = [...FRIENDS_VIDEOS, PARENTS_VIDEO];
+export const ALL_VIDEOS = [...FRIENDS_VIDEOS, ...FAMILY_VIDEOS];
 
 export const EPISODE_COLLECTIONS = [
   { id: 'all', label: 'All Collections' },
@@ -336,6 +363,7 @@ export const CONTINUE_WATCHING_STORAGE_KEY = 'rutvik_plus_continue_watching_v1';
 
 /**
  * Retrieves saved watch history for a single video by ID.
+ * Only picks numeric progress fields so stale localStorage can never override live catalog metadata.
  */
 export function getSavedWatchProgress(videoId) {
   try {
@@ -343,7 +371,13 @@ export function getSavedWatchProgress(videoId) {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return null;
-    return parsed.find((item) => item.id === videoId) || null;
+    const match = parsed.find((item) => item && item.id === videoId);
+    if (!match) return null;
+    return {
+      watchedSeconds: Number.isFinite(Number(match.watchedSeconds)) ? Number(match.watchedSeconds) : 0,
+      progressPercent: Number.isFinite(Number(match.progressPercent)) ? Number(match.progressPercent) : 0,
+      lastWatchedAt: Number.isFinite(Number(match.lastWatchedAt)) ? Number(match.lastWatchedAt) : 0,
+    };
   } catch {
     return null;
   }
