@@ -525,6 +525,48 @@
   color: #8acbe0;
 }
 
+.chronicles-continue-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: clamp(2rem, 4.5vh, 3rem);
+  text-align: center;
+}
+
+.chronicles-continue-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.9rem 2rem;
+  border: 1px solid rgba(229, 9, 20, 0.55);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(229, 9, 20, 0.92), rgba(165, 11, 22, 0.95));
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 12px 34px rgba(229, 9, 20, 0.35), 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.chronicles-continue-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 16px 42px rgba(229, 9, 20, 0.55), 0 6px 20px rgba(0, 0, 0, 0.6);
+  filter: brightness(1.08);
+}
+
+.chronicles-continue-note {
+  color: #9cb1bc;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+}
+
 .chronicles-footer {
   display: flex;
   align-items: center;
